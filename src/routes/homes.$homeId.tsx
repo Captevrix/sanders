@@ -34,7 +34,7 @@ export const Route = createFileRoute("/homes/$homeId")({
     };
   },
   notFoundComponent: HomeNotFound,
-  component: HomeDetail;
+  component: HomeDetail,
 });
 
 function HomeNotFound() {
