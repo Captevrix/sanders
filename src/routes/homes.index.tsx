@@ -35,14 +35,14 @@ const DEFAULTS: Required<HomesSearch> = {
 };
 
 export const Route = createFileRoute("/homes/")({
-  validateSearch: (raw: Record<string, unknown>): Required<HomesSearch> => ({
-    status: typeof raw["status"] === "string" ? raw["status"] : DEFAULTS.status,
-    type: typeof raw["type"] === "string" ? raw["type"] : DEFAULTS.type,
-    beds: Number(raw["beds"]) || DEFAULTS.beds,
-    features: Array.isArray(raw["features"])
-      ? (raw["features"] as unknown[]).filter((f): f is string => typeof f === "string")
+  validateSearch: (raw: HomesSearch): Required<HomesSearch> => ({
+    status: typeof raw.status === "string" ? raw.status : DEFAULTS.status,
+    type: typeof raw.type === "string" ? raw.type : DEFAULTS.type,
+    beds: Number(raw.beds) || DEFAULTS.beds,
+    features: Array.isArray(raw.features)
+      ? raw.features.filter((f): f is string => typeof f === "string")
       : DEFAULTS.features,
-    maxPayment: Number(raw["maxPayment"]) || DEFAULTS.maxPayment,
+    maxPayment: Number(raw.maxPayment) || DEFAULTS.maxPayment,
   }),
   head: () => ({
     meta: [
