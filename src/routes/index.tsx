@@ -1,24 +1,370 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
+import {
+  Phone,
+  ShieldCheck,
+  Truck,
+  Wrench,
+  FileCheck2,
+  MapPin,
+  Ruler,
+  CheckCircle2,
+} from "lucide-react";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+import heroHome from "@/assets/hero-home.jpg";
+import setupImg from "@/assets/setup.jpg";
+import { HOMES, estimateMonthly, money } from "@/components/site/data";
+import { HomeCard } from "@/components/site/HomeCard";
+import { SiteHeader } from "@/components/site/SiteHeader";
+
+const TITLE = "Manufactured Homes in Pensacola, FL | Sanders Housing";
+const DESCRIPTION =
+  "Gulf Coast manufactured homes with the monthly payment shown up front. Browse single and multi section homes, check what you qualify for, and get delivery and setup handled.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+function PaymentEstimator() {
+  const [budget, setBudget] = useState(1100);
+
+  const affordable = useMemo(() => {
+    // invert the payment formula to a rough max cash price
+    const r = 0.0899 / 12;
+    const n = 240;
+    const principal = (budget * (1 - Math.pow(1 + r, -n))) / r;
+    return Math.round(principal / 0.9 / 1000) * 1000;
+  }, [budget]);
+
+  const matches = HOMES.filter((h) => estimateMonthly(h.price) <= budget).length;
+
+  return (
+    <div className="surface-card rounded-xl p-5 sm:p-6">
+      <p className="label-caps text-muted-foreground">Start with your budget</p>
+      <h2 className="mt-2 text-2xl font-bold">What can I afford a month?</h2>
+
+      <label htmlFor="budget" className="mt-5 block text-[15px] font-medium">
+        My comfortable monthly payment
+      </label>
+      <p className="font-display text-4xl font-extrabold text-primary">
+        {money(budget)}
+        <span className="text-lg font-semibold text-muted-foreground">/mo</span>
+      </p>
+      <input
+        id="budget"
+        type="range"
+        min={500}
+        max={2200}
+        step={25}
+        value={budget}
+        onChange={(e) => setBudget(Number(e.target.value))}
+        className="mt-3 h-2 w-full cursor-pointer appearance-none rounded-full bg-sand-deep accent-accent"
+      />
+      <div className="mt-1 flex justify-between text-xs text-muted-foreground">
+        <span>$500</span>
+        <span>$2,200</span>
+      </div>
+
+      <div className="mt-5 rounded-lg bg-sand px-4 py-3">
+        <p className="text-[15px]">
+          That's roughly a{" "}
+          <strong className="font-display text-lg">{money(affordable)}</strong> home — and{" "}
+          <strong>{matches}</strong> of the homes below fit it today.
+        </p>
+      </div>
+
+      <a
+        href="#qualify"
+        className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-md bg-accent px-5 font-semibold text-accent-foreground hover:opacity-90"
+      >
+        See if you qualify — no credit hit
+      </a>
+    </div>
+  );
+}
+
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div id="top" className="min-h-screen pb-20 lg:pb-0">
+      <SiteHeader />
+
+      <main>
+        {/* Hero */}
+        <section className="relative">
+          <img
+            src={heroHome}
+            alt="Multi section manufactured home with a covered front porch on a Pensacola lot"
+            width={1920}
+            height={1088}
+            className="absolute inset-0 size-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/85 via-ink/70 to-ink/30" />
+          <div className="relative mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+            <div>
+              <p className="label-caps inline-flex items-center gap-2 rounded bg-background/90 px-3 py-1.5 text-foreground">
+                <MapPin className="size-3.5" aria-hidden /> Pensacola, FL · Serving the Gulf Coast
+                since 1998
+              </p>
+              <h1 className="mt-5 max-w-[16ch] text-4xl font-extrabold leading-[1.05] text-background sm:text-6xl">
+                Know your payment before you ever call us.
+              </h1>
+              <p className="mt-5 max-w-[52ch] text-lg text-background/85">
+                Every home on our lot shows the cash price and the estimated monthly payment. No
+                "call for pricing," no runaround — just the numbers, then a person who picks up.
+              </p>
+
+              <div className="mt-7 grid gap-3 sm:grid-cols-3">
+                <a
+                  href="#qualify"
+                  className="surface-card flex items-center gap-3 rounded-lg px-4 py-3.5 text-left font-semibold hover:shadow-[var(--shadow-lift)]"
+                >
+                  <ShieldCheck className="size-5 shrink-0 text-primary" aria-hidden />I need
+                  financing
+                </a>
+                <a
+                  href="#inventory"
+                  className="surface-card flex items-center gap-3 rounded-lg px-4 py-3.5 text-left font-semibold hover:shadow-[var(--shadow-lift)]"
+                >
+                  <Ruler className="size-5 shrink-0 text-primary" aria-hidden />I want floor plans
+                </a>
+                <a
+                  href="#setup"
+                  className="surface-card flex items-center gap-3 rounded-lg px-4 py-3.5 text-left font-semibold hover:shadow-[var(--shadow-lift)]"
+                >
+                  <Truck className="size-5 shrink-0 text-primary" aria-hidden />I own the land
+                </a>
+              </div>
+            </div>
+
+            <PaymentEstimator />
+          </div>
+        </section>
+
+        {/* Inventory */}
+        <section id="inventory" className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
+          <div className="flex flex-wrap items-end justify-between gap-4">
+            <div>
+              <p className="label-caps text-accent-foreground">On the lot</p>
+              <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
+                Homes you can walk this week
+              </h2>
+              <p className="mt-2 max-w-[56ch] text-muted-foreground">
+                Price, payment, square footage and box size on every card — so you know what fits
+                your budget and your lot before you drive out.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {["All homes", "Single section", "Multi section", "Under $1,000/mo"].map(
+                (chip, i) => (
+                  <button
+                    key={chip}
+                    type="button"
+                    className={
+                      i === 0
+                        ? "h-11 rounded-md bg-primary px-4 font-semibold text-primary-foreground"
+                        : "h-11 rounded-md border border-border bg-card px-4 font-semibold hover:bg-secondary"
+                    }
+                  >
+                    {chip}
+                  </button>
+                ),
+              )}
+            </div>
+          </div>
+
+          <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            {HOMES.map((home) => (
+              <HomeCard key={home.id} home={home} />
+            ))}
+          </div>
+        </section>
+
+        {/* Land owner / setup */}
+        <section id="setup" className="bg-sand">
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2 lg:items-center">
+            <img
+              src={setupImg}
+              alt="A manufactured home being delivered and set on a rural property"
+              loading="lazy"
+              width={1280}
+              height={960}
+              className="w-full rounded-xl object-cover shadow-[var(--shadow-card)]"
+            />
+            <div>
+              <p className="label-caps text-muted-foreground">If you already own land</p>
+              <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
+                We handle everything after you sign.
+              </h2>
+              <p className="mt-3 max-w-[52ch] text-muted-foreground">
+                Escambia, Santa Rosa, Okaloosa and Baldwin county. Tell us your lot size and we'll
+                tell you what fits, what it costs, and when it lands.
+              </p>
+
+              <ul className="mt-6 grid gap-3 sm:grid-cols-2">
+                {[
+                  { icon: Truck, text: "Transport & delivery" },
+                  { icon: Wrench, text: "Set, level & tie-downs" },
+                  { icon: FileCheck2, text: "Permitting support" },
+                  { icon: CheckCircle2, text: "Skirting, steps & A/C" },
+                ].map(({ icon: Icon, text }) => (
+                  <li
+                    key={text}
+                    className="flex items-center gap-3 rounded-lg bg-card px-4 py-3 font-semibold"
+                  >
+                    <Icon className="size-5 shrink-0 text-primary" aria-hidden />
+                    {text}
+                  </li>
+                ))}
+              </ul>
+
+              <p className="mt-5 text-[15px] text-muted-foreground">
+                Typical delivery window: <strong className="text-foreground">4–8 weeks</strong> from
+                contract for in-stock homes.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Trust */}
+        <section id="trust" className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
+          <h2 className="text-3xl font-extrabold sm:text-4xl">Built for Gulf Coast weather</h2>
+          <p className="mt-2 max-w-[60ch] text-muted-foreground">
+            Every home we sell is HUD code and rated for our wind zone. Ask to see the data plate —
+            we'll show you.
+          </p>
+          <dl className="mt-8 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
+            {[
+              { k: "Wind Zone II & III", v: "Rated for coastal Florida" },
+              { k: "27 years", v: "Family owned in Pensacola" },
+              { k: "1 year", v: "Manufacturer warranty, plus our service crew" },
+              { k: "Included", v: "Delivery, set and tie-down on most homes" },
+            ].map((s) => (
+              <div key={s.k} className="bg-card p-6">
+                <dt className="font-display text-2xl font-extrabold text-primary">{s.k}</dt>
+                <dd className="mt-1 text-[15px] text-muted-foreground">{s.v}</dd>
+              </div>
+            ))}
+          </dl>
+        </section>
+
+        {/* Qualify */}
+        <section id="qualify" className="bg-primary">
+          <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-2">
+            <div>
+              <p className="label-caps text-primary-foreground/70">No credit hit</p>
+              <h2 className="mt-2 text-3xl font-extrabold text-primary-foreground sm:text-4xl">
+                Find out what you qualify for in about 3 minutes.
+              </h2>
+              <p className="mt-4 max-w-[50ch] text-lg text-primary-foreground/85">
+                Credit in the 500s? Still worth asking. We work with land-home and home-only lenders
+                every day, and we'll tell you honestly where you stand.
+              </p>
+              <a
+                href="tel:18504740261"
+                className="mt-6 inline-flex h-12 items-center gap-2 rounded-md bg-background px-5 font-semibold text-foreground hover:opacity-90"
+              >
+                <Phone className="size-4" aria-hidden />
+                1-850-474-0261
+              </a>
+            </div>
+
+            <form className="surface-card grid gap-4 rounded-xl p-6">
+              <div className="grid gap-4 sm:grid-cols-2">
+                <label className="block">
+                  <span className="label-caps text-muted-foreground">Your name</span>
+                  <input
+                    type="text"
+                    className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]"
+                    placeholder="Jordan Alvarez"
+                  />
+                </label>
+                <label className="block">
+                  <span className="label-caps text-muted-foreground">Phone</span>
+                  <input
+                    type="tel"
+                    className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]"
+                    placeholder="(850) 000-0000"
+                  />
+                </label>
+              </div>
+              <fieldset>
+                <legend className="label-caps text-muted-foreground">Do you own land?</legend>
+                <div className="mt-1.5 grid grid-cols-3 gap-2">
+                  {["Yes", "No", "Not sure"].map((opt) => (
+                    <label
+                      key={opt}
+                      className="flex h-12 cursor-pointer items-center justify-center rounded-md border border-input bg-background font-semibold has-checked:border-primary has-checked:bg-secondary"
+                    >
+                      <input type="radio" name="land" value={opt} className="sr-only" />
+                      {opt}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+              <label className="block">
+                <span className="label-caps text-muted-foreground">
+                  Comfortable monthly payment
+                </span>
+                <select className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]">
+                  <option>Under $800</option>
+                  <option>$800 – $1,200</option>
+                  <option>$1,200 – $1,600</option>
+                  <option>$1,600+</option>
+                </select>
+              </label>
+              <button
+                type="button"
+                className="h-12 rounded-md bg-accent font-semibold text-accent-foreground hover:opacity-90"
+              >
+                Check my options
+              </button>
+              <p className="text-xs text-muted-foreground">
+                This is a soft inquiry. It will not affect your credit score.
+              </p>
+            </form>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-border bg-card">
+        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+          <div>
+            <p className="font-display text-lg font-extrabold text-primary">Sanders Housing</p>
+            <p className="text-[15px] text-muted-foreground">
+              10300 Pensacola Blvd, Pensacola, FL · Mon–Sat 9–6
+            </p>
+          </div>
+          <p className="text-sm text-muted-foreground">
+            Equal Housing Opportunity. Payment estimates are illustrative, not an offer of credit.
+          </p>
+        </div>
+      </footer>
+
+      {/* Persistent mobile call bar */}
+      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card p-3 lg:hidden">
+        <div className="mx-auto flex max-w-md gap-2">
+          <a
+            href="tel:18504740261"
+            className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-md bg-primary font-semibold text-primary-foreground"
+          >
+            <Phone className="size-4" aria-hidden /> Call now
+          </a>
+          <a
+            href="#qualify"
+            className="inline-flex h-12 flex-1 items-center justify-center rounded-md bg-accent font-semibold text-accent-foreground"
+          >
+            See if I qualify
+          </a>
+        </div>
+      </div>
     </div>
   );
 }
