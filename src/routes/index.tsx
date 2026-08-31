@@ -192,7 +192,9 @@ function Index() {
               >
                 Under $1,000/mo
               </Link>
+            </div>
           </div>
+
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {HOMES.slice(0, 6).map((home) => (
