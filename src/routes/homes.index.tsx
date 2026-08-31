@@ -31,6 +31,7 @@ export const Route = createFileRoute("/homes/")({
       : DEFAULTS.features,
     maxPayment: Number(raw["maxPayment"]) || DEFAULTS.maxPayment,
   }),
+  search: { middlewares: [stripSearchParams(DEFAULTS)] },
   head: () => ({
     meta: [
       { title: TITLE },
