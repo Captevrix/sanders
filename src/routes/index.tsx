@@ -13,7 +13,7 @@ import {
 
 import heroHome from "@/assets/hero-home.jpg";
 import setupImg from "@/assets/setup.jpg";
-import { HOMES, PRICED_HOMES, estimateMonthly, money } from "@/components/site/data";
+import { HOMES, PRICED_HOMES, estimateMonthly, homesSearch, money } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -167,27 +167,28 @@ function Index() {
             <div className="flex flex-wrap gap-2">
               <Link
                 to="/homes"
+                search={homesSearch()}
                 className="inline-flex h-11 items-center rounded-md bg-primary px-4 font-semibold text-primary-foreground"
               >
                 See all {HOMES.length} homes
               </Link>
               <Link
                 to="/homes"
-                search={{ type: "Single Section" }}
+                search={homesSearch({ type: "Single Section" })}
                 className="inline-flex h-11 items-center rounded-md border border-border bg-card px-4 font-semibold hover:bg-secondary"
               >
                 Single section
               </Link>
               <Link
                 to="/homes"
-                search={{ type: "Multi Section" }}
+                search={homesSearch({ type: "Multi Section" })}
                 className="inline-flex h-11 items-center rounded-md border border-border bg-card px-4 font-semibold hover:bg-secondary"
               >
                 Multi section
               </Link>
               <Link
                 to="/homes"
-                search={{ maxPayment: 1000 }}
+                search={homesSearch({ maxPayment: 1000 })}
                 className="inline-flex h-11 items-center rounded-md border border-border bg-card px-4 font-semibold hover:bg-secondary"
               >
                 Under $1,000/mo
@@ -205,6 +206,7 @@ function Index() {
           <div className="mt-8 flex justify-center">
             <Link
               to="/homes"
+              search={homesSearch()}
               className="inline-flex h-12 items-center justify-center rounded-md border border-border bg-card px-6 font-semibold hover:bg-secondary"
             >
               Browse all {HOMES.length} homes with full specs

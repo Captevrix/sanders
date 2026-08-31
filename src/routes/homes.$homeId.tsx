@@ -2,7 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Bath, BedDouble, Camera, CheckCircle2, MapPin, Phone, Ruler, Square } from "lucide-react";
 
-import { HOMES, estimateMonthly, getHome, money } from "@/components/site/data";
+import { HOMES, estimateMonthly, getHome, homesSearch, money } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -48,6 +48,7 @@ function HomeNotFound() {
         </p>
         <Link
           to="/homes"
+          search={homesSearch()}
           className="mt-6 inline-flex h-12 items-center justify-center rounded-md bg-primary px-5 font-semibold text-primary-foreground"
         >
           Browse all homes
@@ -96,7 +97,7 @@ function HomeDetail() {
             </li>
             <li aria-hidden>/</li>
             <li>
-              <Link to="/homes" className="hover:text-primary">
+              <Link to="/homes" search={homesSearch()} className="hover:text-primary">
                 Our homes
               </Link>
             </li>

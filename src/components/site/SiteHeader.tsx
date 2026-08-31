@@ -1,10 +1,12 @@
 import { Link } from "@tanstack/react-router";
 import { Phone } from "lucide-react";
 
+import { homesSearch } from "./data";
+
 const HOME_LINKS = [
-  { label: "Our homes", search: {} },
-  { label: "Specials", search: { status: "Special" } },
-  { label: "On display", search: { status: "On Site" } },
+  { label: "Our homes", search: homesSearch() },
+  { label: "Specials", search: homesSearch({ status: "Special" }) },
+  { label: "On display", search: homesSearch({ status: "On Site" }) },
 ];
 
 const HASH_LINKS = [

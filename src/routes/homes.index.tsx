@@ -8,7 +8,10 @@ import {
   STATUSES,
   estimateMonthly,
   featureCounts,
+  homesSearch,
   money,
+  HOMES_SEARCH_DEFAULTS as DEFAULTS,
+  type HomesSearch,
 } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
@@ -18,31 +21,15 @@ const TITLE = "Browse Manufactured Homes in Pensacola, FL | Sanders Housing";
 const DESCRIPTION =
   "Filter the Sanders Housing lot by status, single or multi section, bedrooms and features. Full specs, box sizes and floor plans on every home.";
 
-type HomesSearch = {
-  status?: string;
-  type?: string;
-  beds?: number;
-  features?: string[];
-  maxPayment?: number;
-};
-
-const DEFAULTS: Required<HomesSearch> = {
-  status: "All",
-  type: "All",
-  beds: 0,
-  features: [],
-  maxPayment: 0,
-};
-
 export const Route = createFileRoute("/homes/")({
-  validateSearch: (raw: HomesSearch): Required<HomesSearch> => ({
-    status: typeof raw.status === "string" ? raw.status : DEFAULTS.status,
-    type: typeof raw.type === "string" ? raw.type : DEFAULTS.type,
-    beds: Number(raw.beds) || DEFAULTS.beds,
-    features: Array.isArray(raw.features)
-      ? raw.features.filter((f): f is string => typeof f === "string")
+  validateSearch: (raw: Record<string, unknown>): HomesSearch => ({
+    status: typeof raw["status"] === "string" ? (raw["status"] as string) : DEFAULTS.status,
+    type: typeof raw["type"] === "string" ? (raw["type"] as string) : DEFAULTS.type,
+    beds: Number(raw["beds"]) || DEFAULTS.beds,
+    features: Array.isArray(raw["features"])
+      ? (raw["features"] as unknown[]).filter((f): f is string => typeof f === "string")
       : DEFAULTS.features,
-    maxPayment: Number(raw.maxPayment) || DEFAULTS.maxPayment,
+    maxPayment: Number(raw["maxPayment"]) || DEFAULTS.maxPayment,
   }),
   head: () => ({
     meta: [
