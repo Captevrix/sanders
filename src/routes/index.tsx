@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
   Phone,
@@ -13,8 +13,9 @@ import {
 
 import heroHome from "@/assets/hero-home.jpg";
 import setupImg from "@/assets/setup.jpg";
-import { HOMES, estimateMonthly, money } from "@/components/site/data";
+import { HOMES, PRICED_HOMES, estimateMonthly, money } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
+import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 
 const TITLE = "Manufactured Homes in Pensacola, FL | Sanders Housing";
@@ -44,7 +45,7 @@ function PaymentEstimator() {
     return Math.round(principal / 0.9 / 1000) * 1000;
   }, [budget]);
 
-  const matches = HOMES.filter((h) => estimateMonthly(h.price) <= budget).length;
+  const matches = PRICED_HOMES.filter((h) => estimateMonthly(h.price!) <= budget).length;
 
   return (
     <div className="surface-card rounded-xl p-5 sm:p-6">
@@ -77,7 +78,9 @@ function PaymentEstimator() {
         <p className="text-[15px]">
           That's roughly a{" "}
           <strong className="font-display text-lg">{money(affordable)}</strong> home — and{" "}
-          <strong>{matches}</strong> of the homes below fit it today.
+          <strong>{matches}</strong> of our {PRICED_HOMES.length} priced homes fit it today. Most
+          homes on the lot are quoted with your options, so call and we'll price it against this
+          number.
         </p>
       </div>
 
@@ -162,28 +165,48 @@ function Index() {
               </p>
             </div>
             <div className="flex flex-wrap gap-2">
-              {["All homes", "Single section", "Multi section", "Under $1,000/mo"].map(
-                (chip, i) => (
-                  <button
-                    key={chip}
-                    type="button"
-                    className={
-                      i === 0
-                        ? "h-11 rounded-md bg-primary px-4 font-semibold text-primary-foreground"
-                        : "h-11 rounded-md border border-border bg-card px-4 font-semibold hover:bg-secondary"
-                    }
-                  >
-                    {chip}
-                  </button>
-                ),
-              )}
-            </div>
+              <Link
+                to="/homes"
+                className="inline-flex h-11 items-center rounded-md bg-primary px-4 font-semibold text-primary-foreground"
+              >
+                See all {HOMES.length} homes
+              </Link>
+              <Link
+                to="/homes"
+                search={{ type: "Single Section" }}
+                className="inline-flex h-11 items-center rounded-md border border-border bg-card px-4 font-semibold hover:bg-secondary"
+              >
+                Single section
+              </Link>
+              <Link
+                to="/homes"
+                search={{ type: "Multi Section" }}
+                className="inline-flex h-11 items-center rounded-md border border-border bg-card px-4 font-semibold hover:bg-secondary"
+              >
+                Multi section
+              </Link>
+              <Link
+                to="/homes"
+                search={{ maxPayment: 1000 }}
+                className="inline-flex h-11 items-center rounded-md border border-border bg-card px-4 font-semibold hover:bg-secondary"
+              >
+                Under $1,000/mo
+              </Link>
           </div>
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {HOMES.map((home) => (
+            {HOMES.slice(0, 6).map((home) => (
               <HomeCard key={home.id} home={home} />
             ))}
+          </div>
+
+          <div className="mt-8 flex justify-center">
+            <Link
+              to="/homes"
+              className="inline-flex h-12 items-center justify-center rounded-md border border-border bg-card px-6 font-semibold hover:bg-secondary"
+            >
+              Browse all {HOMES.length} homes with full specs
+            </Link>
           </div>
         </section>
 
@@ -334,37 +357,8 @@ function Index() {
         </section>
       </main>
 
-      <footer className="border-t border-border bg-card">
-        <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-          <div>
-            <p className="font-display text-lg font-extrabold text-primary">Sanders Housing</p>
-            <p className="text-[15px] text-muted-foreground">
-              10300 Pensacola Blvd, Pensacola, FL · Mon–Sat 9–6
-            </p>
-          </div>
-          <p className="text-sm text-muted-foreground">
-            Equal Housing Opportunity. Payment estimates are illustrative, not an offer of credit.
-          </p>
-        </div>
-      </footer>
-
-      {/* Persistent mobile call bar */}
-      <div className="fixed inset-x-0 bottom-0 z-50 border-t border-border bg-card p-3 lg:hidden">
-        <div className="mx-auto flex max-w-md gap-2">
-          <a
-            href="tel:18504740261"
-            className="inline-flex h-12 flex-1 items-center justify-center gap-2 rounded-md bg-primary font-semibold text-primary-foreground"
-          >
-            <Phone className="size-4" aria-hidden /> Call now
-          </a>
-          <a
-            href="#qualify"
-            className="inline-flex h-12 flex-1 items-center justify-center rounded-md bg-accent font-semibold text-accent-foreground"
-          >
-            See if I qualify
-          </a>
-        </div>
-      </div>
+      <SiteFooter />
+      <MobileCallBar />
     </div>
   );
 }
