@@ -1,28 +1,36 @@
+import { Link } from "@tanstack/react-router";
 import { Phone } from "lucide-react";
 
 const NAV = [
-  { label: "Browse homes", href: "#inventory" },
-  { label: "See if you qualify", href: "#qualify" },
-  { label: "Delivery & setup", href: "#setup" },
-  { label: "Why Sanders", href: "#trust" },
+  { label: "Our homes", to: "/homes" as const, search: {} },
+  { label: "Specials", to: "/homes" as const, search: { status: "Special" } },
+  { label: "On display", to: "/homes" as const, search: { status: "On Site" } },
+  { label: "Financing", to: "/" as const, hash: "qualify" },
+  { label: "Delivery & setup", to: "/" as const, hash: "setup" },
 ];
 
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <a href="#top" className="flex items-baseline gap-2">
+        <Link to="/" className="flex items-baseline gap-2">
           <span className="font-display text-xl font-extrabold tracking-tight text-primary">
             Sanders
           </span>
           <span className="label-caps text-muted-foreground">Housing</span>
-        </a>
+        </Link>
 
-        <nav className="hidden items-center gap-7 text-[15px] font-medium text-foreground lg:flex">
+        <nav className="hidden items-center gap-6 text-[15px] font-medium text-foreground lg:flex">
           {NAV.map((item) => (
-            <a key={item.href} href={item.href} className="hover:text-primary">
+            <Link
+              key={item.label}
+              to={item.to}
+              search={item.search as never}
+              hash={item.hash}
+              className="hover:text-primary"
+            >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
