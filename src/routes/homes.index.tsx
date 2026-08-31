@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, Link, stripSearchParams, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 
