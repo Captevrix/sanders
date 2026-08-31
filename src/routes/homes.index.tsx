@@ -19,14 +19,14 @@ const DESCRIPTION =
   "Filter the Sanders Housing lot by status, single or multi section, bedrooms and features. Full specs, box sizes and floor plans on every home.";
 
 type HomesSearch = {
-  status: string;
-  type: string;
-  beds: number;
-  features: string[];
-  maxPayment: number;
+  status?: string;
+  type?: string;
+  beds?: number;
+  features?: string[];
+  maxPayment?: number;
 };
 
-const DEFAULTS: HomesSearch = {
+const DEFAULTS: Required<HomesSearch> = {
   status: "All",
   type: "All",
   beds: 0,
@@ -35,14 +35,14 @@ const DEFAULTS: HomesSearch = {
 };
 
 export const Route = createFileRoute("/homes/")({
-  validateSearch: (raw: Record<string, unknown>): HomesSearch => ({
-    status: typeof raw.status === "string" ? raw.status : DEFAULTS.status,
-    type: typeof raw.type === "string" ? raw.type : DEFAULTS.type,
-    beds: Number.isFinite(Number(raw.beds)) ? Number(raw.beds) || 0 : 0,
-    features: Array.isArray(raw.features)
-      ? raw.features.filter((f): f is string => typeof f === "string")
-      : [],
-    maxPayment: Number.isFinite(Number(raw.maxPayment)) ? Number(raw.maxPayment) || 0 : 0,
+  validateSearch: (raw: Record<string, unknown>): Required<HomesSearch> => ({
+    status: typeof raw["status"] === "string" ? raw["status"] : DEFAULTS.status,
+    type: typeof raw["type"] === "string" ? raw["type"] : DEFAULTS.type,
+    beds: Number(raw["beds"]) || DEFAULTS.beds,
+    features: Array.isArray(raw["features"])
+      ? (raw["features"] as unknown[]).filter((f): f is string => typeof f === "string")
+      : DEFAULTS.features,
+    maxPayment: Number(raw["maxPayment"]) || DEFAULTS.maxPayment,
   }),
   head: () => ({
     meta: [

@@ -1,12 +1,15 @@
 import { Link } from "@tanstack/react-router";
 import { Phone } from "lucide-react";
 
-const NAV = [
-  { label: "Our homes", to: "/homes" as const, search: {} },
-  { label: "Specials", to: "/homes" as const, search: { status: "Special" } },
-  { label: "On display", to: "/homes" as const, search: { status: "On Site" } },
-  { label: "Financing", to: "/" as const, hash: "qualify" },
-  { label: "Delivery & setup", to: "/" as const, hash: "setup" },
+const HOME_LINKS = [
+  { label: "Our homes", search: {} },
+  { label: "Specials", search: { status: "Special" } },
+  { label: "On display", search: { status: "On Site" } },
+];
+
+const HASH_LINKS = [
+  { label: "Financing", hash: "qualify" },
+  { label: "Delivery & setup", hash: "setup" },
 ];
 
 export function SiteHeader() {
@@ -21,14 +24,13 @@ export function SiteHeader() {
         </Link>
 
         <nav className="hidden items-center gap-6 text-[15px] font-medium text-foreground lg:flex">
-          {NAV.map((item) => (
-            <Link
-              key={item.label}
-              to={item.to}
-              search={item.search as never}
-              hash={item.hash}
-              className="hover:text-primary"
-            >
+          {HOME_LINKS.map((item) => (
+            <Link key={item.label} to="/homes" search={item.search} className="hover:text-primary">
+              {item.label}
+            </Link>
+          ))}
+          {HASH_LINKS.map((item) => (
+            <Link key={item.label} to="/" hash={item.hash} className="hover:text-primary">
               {item.label}
             </Link>
           ))}
