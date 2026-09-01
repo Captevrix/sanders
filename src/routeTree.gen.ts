@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as FaqRouteImport } from './routes/faq'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as HomesIndexRouteImport } from './routes/homes.index'
 import { Route as HomesHomeIdRouteImport } from './routes/homes.$homeId'
@@ -39,6 +40,11 @@ const AboutRoute = AboutRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const FaqRoute = FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
@@ -91,6 +97,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/faq': typeof FaqRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
@@ -104,6 +111,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/faq': typeof FaqRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes': typeof HomesIndexRoute
   '/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
@@ -118,6 +126,7 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/about': typeof AboutRoute
   '/auth': typeof AuthRoute
+  '/faq': typeof FaqRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
@@ -133,6 +142,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auth'
+    | '/faq'
     | '/dashboard'
     | '/homes/$homeId'
     | '/homes/'
@@ -146,6 +156,7 @@ export interface FileRouteTypes {
     | '/'
     | '/about'
     | '/auth'
+    | '/faq'
     | '/homes/$homeId'
     | '/homes'
     | '/dashboard/leads'
@@ -159,6 +170,7 @@ export interface FileRouteTypes {
     | '/_authenticated'
     | '/about'
     | '/auth'
+    | '/faq'
     | '/_authenticated/dashboard'
     | '/homes/$homeId'
     | '/homes/'
@@ -174,6 +186,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AboutRoute: typeof AboutRoute
   AuthRoute: typeof AuthRoute
+  FaqRoute: typeof FaqRoute
   HomesHomeIdRoute: typeof HomesHomeIdRoute
   HomesIndexRoute: typeof HomesIndexRoute
 }
@@ -206,6 +219,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/faq': {
+      id: '/faq'
+      path: '/faq'
+      fullPath: '/faq'
+      preLoaderRoute: typeof FaqRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/dashboard': {
@@ -307,6 +327,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AboutRoute: AboutRoute,
   AuthRoute: AuthRoute,
+  FaqRoute: FaqRoute,
   HomesHomeIdRoute: HomesHomeIdRoute,
   HomesIndexRoute: HomesIndexRoute,
 }
