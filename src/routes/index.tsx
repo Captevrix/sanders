@@ -1,3 +1,4 @@
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
@@ -13,16 +14,19 @@ import {
 
 import heroHome from "@/assets/hero-home.jpg";
 import setupImg from "@/assets/setup.jpg";
-import { HOMES, PRICED_HOMES, estimateMonthly, homesSearch, money } from "@/components/site/data";
+import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { submitLead } from "@/lib/homes.functions";
+import { homesQuery } from "./homes.index";
 
 const TITLE = "Manufactured Homes in Pensacola, FL | Sanders Housing";
 const DESCRIPTION =
   "Gulf Coast manufactured homes with the monthly payment shown up front. Browse single and multi section homes, check what you qualify for, and get delivery and setup handled.";
 
 export const Route = createFileRoute("/")({
+  loader: ({ context }) => context.queryClient.ensureQueryData(homesQuery),
   head: () => ({
     meta: [
       { title: TITLE },
@@ -31,10 +35,19 @@ export const Route = createFileRoute("/")({
       { property: "og:description", content: DESCRIPTION },
     ],
   }),
+  errorComponent: ({ error }) => (
+    <div role="alert" className="mx-auto max-w-2xl px-4 py-24 text-center">
+      <h1 className="text-2xl font-extrabold">We couldn't load the lot right now.</h1>
+      <p className="mt-2 text-muted-foreground">{error.message}</p>
+    </div>
+  ),
+  notFoundComponent: () => (
+    <div className="mx-auto max-w-2xl px-4 py-24 text-center">Nothing here.</div>
+  ),
   component: Index,
 });
 
-function PaymentEstimator() {
+function PaymentEstimator({ priced }: { priced: Home[] }) {
   const [budget, setBudget] = useState(1100);
 
   const affordable = useMemo(() => {
@@ -45,7 +58,7 @@ function PaymentEstimator() {
     return Math.round(principal / 0.9 / 1000) * 1000;
   }, [budget]);
 
-  const matches = PRICED_HOMES.filter((h) => estimateMonthly(h.price!) <= budget).length;
+  const matches = priced.filter((h) => estimateMonthly(h.price!) <= budget).length;
 
   return (
     <div className="surface-card rounded-xl p-5 sm:p-6">
@@ -78,7 +91,7 @@ function PaymentEstimator() {
         <p className="text-[15px]">
           That's roughly a{" "}
           <strong className="font-display text-lg">{money(affordable)}</strong> home — and{" "}
-          <strong>{matches}</strong> of our {PRICED_HOMES.length} priced homes fit it today. Most
+          <strong>{matches}</strong> of our {priced.length} priced homes fit it today. Most
           homes on the lot are quoted with your options, so call and we'll price it against this
           number.
         </p>
@@ -93,6 +106,124 @@ function PaymentEstimator() {
     </div>
   );
 }
+
+function QualifyForm() {
+  const [form, setForm] = useState({ name: "", phone: "", land: "Yes", budget: "Under $800" });
+  const [state, setState] = useState<"idle" | "busy" | "done">("idle");
+  const [error, setError] = useState("");
+
+  async function onSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setError("");
+    setState("busy");
+    try {
+      await submitLead({
+        data: {
+          name: form.name,
+          phone: form.phone,
+          message: `Owns land: ${form.land}. Comfortable payment: ${form.budget}.`,
+          source: "qualify",
+        },
+      });
+      setState("done");
+    } catch (err) {
+      setState("idle");
+      setError(err instanceof Error ? err.message : "Something went wrong.");
+    }
+  }
+
+  if (state === "done") {
+    return (
+      <div className="surface-card grid content-center gap-2 rounded-xl p-6 text-center">
+        <p className="font-display text-2xl font-extrabold text-primary">Got it, {form.name}.</p>
+        <p className="text-muted-foreground">
+          We'll call you back today with what you qualify for. No credit hit, no pressure.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <form onSubmit={onSubmit} className="surface-card grid gap-4 rounded-xl p-6">
+      <div className="grid gap-4 sm:grid-cols-2">
+        <label className="block">
+          <span className="label-caps text-muted-foreground">Your name</span>
+          <input
+            type="text"
+            required
+            maxLength={120}
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]"
+            placeholder="Jordan Alvarez"
+          />
+        </label>
+        <label className="block">
+          <span className="label-caps text-muted-foreground">Phone</span>
+          <input
+            type="tel"
+            required
+            maxLength={40}
+            value={form.phone}
+            onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]"
+            placeholder="(850) 000-0000"
+          />
+        </label>
+      </div>
+      <fieldset>
+        <legend className="label-caps text-muted-foreground">Do you own land?</legend>
+        <div className="mt-1.5 grid grid-cols-3 gap-2">
+          {["Yes", "No", "Not sure"].map((opt) => (
+            <label
+              key={opt}
+              className="flex h-12 cursor-pointer items-center justify-center rounded-md border border-input bg-background font-semibold has-checked:border-primary has-checked:bg-secondary"
+            >
+              <input
+                type="radio"
+                name="land"
+                value={opt}
+                checked={form.land === opt}
+                onChange={() => setForm({ ...form, land: opt })}
+                className="sr-only"
+              />
+              {opt}
+            </label>
+          ))}
+        </div>
+      </fieldset>
+      <label className="block">
+        <span className="label-caps text-muted-foreground">Comfortable monthly payment</span>
+        <select
+          value={form.budget}
+          onChange={(e) => setForm({ ...form, budget: e.target.value })}
+          className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]"
+        >
+          <option>Under $800</option>
+          <option>$800 – $1,200</option>
+          <option>$1,200 – $1,600</option>
+          <option>$1,600+</option>
+        </select>
+      </label>
+      {error && (
+        <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
+          {error}
+        </p>
+      )}
+      <button
+        type="submit"
+        disabled={state === "busy"}
+        className="h-12 rounded-md bg-accent font-semibold text-accent-foreground hover:opacity-90 disabled:opacity-60"
+      >
+        {state === "busy" ? "Sending…" : "Check my options"}
+      </button>
+      <p className="text-xs text-muted-foreground">
+        This is a soft inquiry. It will not affect your credit score.
+      </p>
+    </form>
+  );
+}
+
 
 function Index() {
   return (

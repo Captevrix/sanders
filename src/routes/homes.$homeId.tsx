@@ -2,16 +2,20 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Bath, BedDouble, Camera, CheckCircle2, MapPin, Phone, Ruler, Square } from "lucide-react";
 
-import { HOMES, estimateMonthly, getHome, homesSearch, money } from "@/components/site/data";
+import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { getPublicHome, listPublicHomes } from "@/lib/homes.functions";
 
 export const Route = createFileRoute("/homes/$homeId")({
-  loader: ({ params }) => {
-    const home = getHome(params.homeId);
+  loader: async ({ params }) => {
+    const [home, all] = await Promise.all([
+      getPublicHome({ data: { id: params.homeId } }),
+      listPublicHomes(),
+    ]);
     if (!home) throw notFound();
-    return { home };
+    return { home, all };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -33,9 +37,16 @@ export const Route = createFileRoute("/homes/$homeId")({
       ],
     };
   },
+  errorComponent: ({ error }) => (
+    <div role="alert" className="mx-auto max-w-2xl px-4 py-24 text-center">
+      <h1 className="text-2xl font-extrabold">We couldn't load this home.</h1>
+      <p className="mt-2 text-muted-foreground">{error.message}</p>
+    </div>
+  ),
   notFoundComponent: HomeNotFound,
   component: HomeDetail,
 });
+
 
 function HomeNotFound() {
   return (
@@ -69,19 +80,21 @@ function Overview({ label, value }: { label: string; value: string }) {
 }
 
 function HomeDetail() {
-  const { home } = Route.useLoaderData();
+  const { home, all } = Route.useLoaderData() as { home: Home; all: Home[] };
   const [active, setActive] = useState(0);
   const monthly = home.price ? estimateMonthly(home.price) : null;
 
-  // The preview reuses lot photography; a real build maps home.photoCount images here.
-  const gallery = [home.image, ...HOMES.filter((h) => h.id !== home.id).map((h) => h.image)].slice(
-    0,
-    5,
-  );
+  // Uploaded photos first; otherwise fall back to lot photography for the gallery.
+  const gallery = (
+    home.photos.length > 0
+      ? home.photos
+      : [home.image, ...all.filter((h) => h.id !== home.id).map((h) => h.image)]
+  ).slice(0, 5);
 
-  const similar = HOMES.filter(
-    (h) => h.id !== home.id && (h.sectionType === home.sectionType || h.beds === home.beds),
-  ).slice(0, 3);
+  const similar = all
+    .filter((h) => h.id !== home.id && (h.sectionType === home.sectionType || h.beds === home.beds))
+    .slice(0, 3);
+
 
   return (
     <div className="min-h-screen pb-24 lg:pb-0">

@@ -10,13 +10,35 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as HomesIndexRouteImport } from './routes/homes.index'
 import { Route as HomesHomeIdRouteImport } from './routes/homes.$homeId'
+import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
+import { Route as AuthenticatedDashboardLeadsRouteImport } from './routes/_authenticated/dashboard.leads'
+import { Route as AuthenticatedDashboardTeamRouteImport } from './routes/_authenticated/dashboard.team'
+import { Route as AuthenticatedDashboardListingsIndexRouteImport } from './routes/_authenticated/dashboard.listings.index'
+import { Route as AuthenticatedDashboardListingsHomeIdRouteImport } from './routes/_authenticated/dashboard.listings.$homeId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
 const HomesIndexRoute = HomesIndexRouteImport.update({
   id: '/homes/',
@@ -28,33 +50,117 @@ const HomesHomeIdRoute = HomesHomeIdRouteImport.update({
   path: '/homes/$homeId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedDashboardIndexRoute =
+  AuthenticatedDashboardIndexRouteImport.update({
+    id: '/',
+    path: '/',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardLeadsRoute =
+  AuthenticatedDashboardLeadsRouteImport.update({
+    id: '/leads',
+    path: '/leads',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardTeamRoute =
+  AuthenticatedDashboardTeamRouteImport.update({
+    id: '/team',
+    path: '/team',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardListingsIndexRoute =
+  AuthenticatedDashboardListingsIndexRouteImport.update({
+    id: '/listings/',
+    path: '/listings/',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardListingsHomeIdRoute =
+  AuthenticatedDashboardListingsHomeIdRouteImport.update({
+    id: '/listings/$homeId',
+    path: '/listings/$homeId',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
+  '/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
+  '/dashboard/team': typeof AuthenticatedDashboardTeamRoute
+  '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
+  '/dashboard/listings/': typeof AuthenticatedDashboardListingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes': typeof HomesIndexRoute
+  '/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
+  '/dashboard/team': typeof AuthenticatedDashboardTeamRoute
+  '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
+  '/dashboard/listings': typeof AuthenticatedDashboardListingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
+  '/_authenticated/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
+  '/_authenticated/dashboard/team': typeof AuthenticatedDashboardTeamRoute
+  '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
+  '/_authenticated/dashboard/listings/': typeof AuthenticatedDashboardListingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/homes/$homeId' | '/homes/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/homes/$homeId'
+    | '/homes/'
+    | '/dashboard/leads'
+    | '/dashboard/team'
+    | '/dashboard/'
+    | '/dashboard/listings/$homeId'
+    | '/dashboard/listings/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/homes/$homeId' | '/homes'
-  id: '__root__' | '/' | '/homes/$homeId' | '/homes/'
+  to:
+    | '/'
+    | '/auth'
+    | '/homes/$homeId'
+    | '/homes'
+    | '/dashboard/leads'
+    | '/dashboard/team'
+    | '/dashboard'
+    | '/dashboard/listings/$homeId'
+    | '/dashboard/listings'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/dashboard'
+    | '/homes/$homeId'
+    | '/homes/'
+    | '/_authenticated/dashboard/leads'
+    | '/_authenticated/dashboard/team'
+    | '/_authenticated/dashboard/'
+    | '/_authenticated/dashboard/listings/$homeId'
+    | '/_authenticated/dashboard/listings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
   HomesHomeIdRoute: typeof HomesHomeIdRoute
   HomesIndexRoute: typeof HomesIndexRoute
 }
@@ -67,6 +173,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
     }
     '/homes/': {
       id: '/homes/'
@@ -82,11 +209,83 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HomesHomeIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/dashboard/': {
+      id: '/_authenticated/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/leads': {
+      id: '/_authenticated/dashboard/leads'
+      path: '/leads'
+      fullPath: '/dashboard/leads'
+      preLoaderRoute: typeof AuthenticatedDashboardLeadsRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/team': {
+      id: '/_authenticated/dashboard/team'
+      path: '/team'
+      fullPath: '/dashboard/team'
+      preLoaderRoute: typeof AuthenticatedDashboardTeamRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/listings/': {
+      id: '/_authenticated/dashboard/listings/'
+      path: '/listings'
+      fullPath: '/dashboard/listings/'
+      preLoaderRoute: typeof AuthenticatedDashboardListingsIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/listings/$homeId': {
+      id: '/_authenticated/dashboard/listings/$homeId'
+      path: '/listings/$homeId'
+      fullPath: '/dashboard/listings/$homeId'
+      preLoaderRoute: typeof AuthenticatedDashboardListingsHomeIdRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
   }
 }
 
+interface AuthenticatedDashboardRouteChildren {
+  AuthenticatedDashboardLeadsRoute: typeof AuthenticatedDashboardLeadsRoute
+  AuthenticatedDashboardTeamRoute: typeof AuthenticatedDashboardTeamRoute
+  AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+  AuthenticatedDashboardListingsHomeIdRoute: typeof AuthenticatedDashboardListingsHomeIdRoute
+  AuthenticatedDashboardListingsIndexRoute: typeof AuthenticatedDashboardListingsIndexRoute
+}
+
+const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
+  {
+    AuthenticatedDashboardLeadsRoute: AuthenticatedDashboardLeadsRoute,
+    AuthenticatedDashboardTeamRoute: AuthenticatedDashboardTeamRoute,
+    AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+    AuthenticatedDashboardListingsHomeIdRoute:
+      AuthenticatedDashboardListingsHomeIdRoute,
+    AuthenticatedDashboardListingsIndexRoute:
+      AuthenticatedDashboardListingsIndexRoute,
+  }
+
+const AuthenticatedDashboardRouteWithChildren =
+  AuthenticatedDashboardRoute._addFileChildren(
+    AuthenticatedDashboardRouteChildren,
+  )
+
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRouteWithChildren
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRouteWithChildren,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
   HomesHomeIdRoute: HomesHomeIdRoute,
   HomesIndexRoute: HomesIndexRoute,
 }
