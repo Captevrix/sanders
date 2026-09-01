@@ -226,6 +226,10 @@ function QualifyForm() {
 
 
 function Index() {
+  const { data: homes } = useSuspenseQuery(homesQuery);
+  const priced = homes.filter((h) => typeof h.price === "number");
+  const featured = homes.slice(0, 6);
+
   return (
     <div id="top" className="min-h-screen pb-20 lg:pb-0">
       <SiteHeader />
@@ -278,7 +282,7 @@ function Index() {
               </div>
             </div>
 
-            <PaymentEstimator />
+            <PaymentEstimator priced={priced} />
           </div>
         </section>
 
@@ -301,7 +305,7 @@ function Index() {
                 search={homesSearch()}
                 className="inline-flex h-11 items-center rounded-md bg-primary px-4 font-semibold text-primary-foreground"
               >
-                See all {HOMES.length} homes
+                See all {homes.length} homes
               </Link>
               <Link
                 to="/homes"
@@ -329,7 +333,7 @@ function Index() {
 
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {HOMES.slice(0, 6).map((home) => (
+            {featured.map((home) => (
               <HomeCard key={home.id} home={home} />
             ))}
           </div>
@@ -340,7 +344,7 @@ function Index() {
               search={homesSearch()}
               className="inline-flex h-12 items-center justify-center rounded-md border border-border bg-card px-6 font-semibold hover:bg-secondary"
             >
-              Browse all {HOMES.length} homes with full specs
+              Browse all {homes.length} homes with full specs
             </Link>
           </div>
         </section>
@@ -434,60 +438,8 @@ function Index() {
               </a>
             </div>
 
-            <form className="surface-card grid gap-4 rounded-xl p-6">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <label className="block">
-                  <span className="label-caps text-muted-foreground">Your name</span>
-                  <input
-                    type="text"
-                    className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]"
-                    placeholder="Jordan Alvarez"
-                  />
-                </label>
-                <label className="block">
-                  <span className="label-caps text-muted-foreground">Phone</span>
-                  <input
-                    type="tel"
-                    className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]"
-                    placeholder="(850) 000-0000"
-                  />
-                </label>
-              </div>
-              <fieldset>
-                <legend className="label-caps text-muted-foreground">Do you own land?</legend>
-                <div className="mt-1.5 grid grid-cols-3 gap-2">
-                  {["Yes", "No", "Not sure"].map((opt) => (
-                    <label
-                      key={opt}
-                      className="flex h-12 cursor-pointer items-center justify-center rounded-md border border-input bg-background font-semibold has-checked:border-primary has-checked:bg-secondary"
-                    >
-                      <input type="radio" name="land" value={opt} className="sr-only" />
-                      {opt}
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-              <label className="block">
-                <span className="label-caps text-muted-foreground">
-                  Comfortable monthly payment
-                </span>
-                <select className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]">
-                  <option>Under $800</option>
-                  <option>$800 – $1,200</option>
-                  <option>$1,200 – $1,600</option>
-                  <option>$1,600+</option>
-                </select>
-              </label>
-              <button
-                type="button"
-                className="h-12 rounded-md bg-accent font-semibold text-accent-foreground hover:opacity-90"
-              >
-                Check my options
-              </button>
-              <p className="text-xs text-muted-foreground">
-                This is a soft inquiry. It will not affect your credit score.
-              </p>
-            </form>
+            <QualifyForm />
+
           </div>
         </section>
       </main>
