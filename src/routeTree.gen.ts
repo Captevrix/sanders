@@ -17,6 +17,7 @@ import { Route as HomesIndexRouteImport } from './routes/homes.index'
 import { Route as HomesHomeIdRouteImport } from './routes/homes.$homeId'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
 import { Route as AuthenticatedDashboardListingsIndexRouteImport } from './routes/_authenticated/dashboard.listings.index'
+import { Route as AuthenticatedDashboardListingsHomeIdRouteImport } from './routes/_authenticated/dashboard.listings.$homeId'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -59,6 +60,12 @@ const AuthenticatedDashboardListingsIndexRoute =
     path: '/listings/',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedDashboardListingsHomeIdRoute =
+  AuthenticatedDashboardListingsHomeIdRouteImport.update({
+    id: '/listings/$homeId',
+    path: '/listings/$homeId',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,6 +74,7 @@ export interface FileRoutesByFullPath {
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
   '/dashboard/listings/': typeof AuthenticatedDashboardListingsIndexRoute
 }
 export interface FileRoutesByTo {
@@ -75,6 +83,7 @@ export interface FileRoutesByTo {
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes': typeof HomesIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
   '/dashboard/listings': typeof AuthenticatedDashboardListingsIndexRoute
 }
 export interface FileRoutesById {
@@ -86,6 +95,7 @@ export interface FileRoutesById {
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
   '/_authenticated/dashboard/listings/': typeof AuthenticatedDashboardListingsIndexRoute
 }
 export interface FileRouteTypes {
@@ -97,6 +107,7 @@ export interface FileRouteTypes {
     | '/homes/$homeId'
     | '/homes/'
     | '/dashboard/'
+    | '/dashboard/listings/$homeId'
     | '/dashboard/listings/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/homes/$homeId'
     | '/homes'
     | '/dashboard'
+    | '/dashboard/listings/$homeId'
     | '/dashboard/listings'
   id:
     | '__root__'
@@ -115,6 +127,7 @@ export interface FileRouteTypes {
     | '/homes/$homeId'
     | '/homes/'
     | '/_authenticated/dashboard/'
+    | '/_authenticated/dashboard/listings/$homeId'
     | '/_authenticated/dashboard/listings/'
   fileRoutesById: FileRoutesById
 }
@@ -184,17 +197,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardListingsIndexRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
+    '/_authenticated/dashboard/listings/$homeId': {
+      id: '/_authenticated/dashboard/listings/$homeId'
+      path: '/listings/$homeId'
+      fullPath: '/dashboard/listings/$homeId'
+      preLoaderRoute: typeof AuthenticatedDashboardListingsHomeIdRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
   }
 }
 
 interface AuthenticatedDashboardRouteChildren {
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+  AuthenticatedDashboardListingsHomeIdRoute: typeof AuthenticatedDashboardListingsHomeIdRoute
   AuthenticatedDashboardListingsIndexRoute: typeof AuthenticatedDashboardListingsIndexRoute
 }
 
 const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
   {
     AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+    AuthenticatedDashboardListingsHomeIdRoute:
+      AuthenticatedDashboardListingsHomeIdRoute,
     AuthenticatedDashboardListingsIndexRoute:
       AuthenticatedDashboardListingsIndexRoute,
   }
