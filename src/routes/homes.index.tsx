@@ -84,8 +84,18 @@ function HomesIndex() {
     });
 
   const results = useMemo(
-    () =>
-      homes.filter((home) => {
+    () => {
+      const q = search.q.trim().toLowerCase();
+      return homes.filter((home) => {
+        if (search.onSite && !isOnSite(home)) return false;
+        if (
+          q &&
+          ![home.name, home.builder, home.propertyId, home.dimensions, home.sectionType]
+            .join(" ")
+            .toLowerCase()
+            .includes(q)
+        )
+          return false;
         if (search.status !== "All" && !home.statuses.includes(search.status)) return false;
         if (search.type !== "All" && home.sectionType !== search.type) return false;
         if (search.beds > 0 && home.beds < search.beds) return false;
