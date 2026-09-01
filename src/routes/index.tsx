@@ -282,7 +282,7 @@ function Index() {
               </div>
             </div>
 
-            <PaymentEstimator />
+            <PaymentEstimator priced={priced} />
           </div>
         </section>
 
@@ -305,7 +305,7 @@ function Index() {
                 search={homesSearch()}
                 className="inline-flex h-11 items-center rounded-md bg-primary px-4 font-semibold text-primary-foreground"
               >
-                See all {HOMES.length} homes
+                See all {homes.length} homes
               </Link>
               <Link
                 to="/homes"
@@ -333,7 +333,7 @@ function Index() {
 
 
           <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {HOMES.slice(0, 6).map((home) => (
+            {featured.map((home) => (
               <HomeCard key={home.id} home={home} />
             ))}
           </div>
@@ -344,7 +344,7 @@ function Index() {
               search={homesSearch()}
               className="inline-flex h-12 items-center justify-center rounded-md border border-border bg-card px-6 font-semibold hover:bg-secondary"
             >
-              Browse all {HOMES.length} homes with full specs
+              Browse all {homes.length} homes with full specs
             </Link>
           </div>
         </section>
