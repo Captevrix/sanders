@@ -117,5 +117,40 @@ export const submitLead = createServerFn({ method: "POST" })
       home_id: data.homeId,
     });
     if (error) throw new Error("We couldn't send that just now. Please call us instead.");
+
+    // Forward the lead to HighLevel (or any inbound webhook). The URL lives in
+    // the HIGHLEVEL_WEBHOOK_URL secret; when unset the forward is skipped.
+    const webhookUrl = process.env["HIGHLEVEL_WEBHOOK_URL"];
+    if (webhookUrl) {
+      try {
+        let homeName: string | null = null;
+        if (data.homeId) {
+          const { data: homeRow } = await supabaseAdmin
+            .from("homes")
+            .select("name")
+            .eq("id", data.homeId)
+            .maybeSingle();
+          homeName = homeRow?.name ?? null;
+        }
+        const res = await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: data.name,
+            phone: data.phone || null,
+            email: data.email || null,
+            message: data.message || null,
+            source: data.source,
+            home_id: data.homeId,
+            home_name: homeName,
+            submitted_at: new Date().toISOString(),
+          }),
+        });
+        if (!res.ok) console.error(`HighLevel webhook returned ${res.status}`);
+      } catch (webhookError) {
+        // Never block the user on a webhook failure — the lead is stored.
+        console.error("HighLevel webhook failed", webhookError);
+      }
+    }
     return { ok: true };
   });

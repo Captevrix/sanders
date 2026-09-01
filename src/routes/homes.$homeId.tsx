@@ -4,6 +4,7 @@ import { Bath, BedDouble, Camera, CheckCircle2, MapPin, Phone, Ruler, Square } f
 
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
+import { InquiryDialog } from "@/components/site/InquiryDialog";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { ShareActions } from "@/components/site/ShareActions";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -306,6 +307,11 @@ function HomeDetail() {
             >
               See if you qualify — no credit hit
             </Link>
+            <InquiryDialog
+              home={home}
+              label="Ask about this home"
+              className="mt-3 inline-flex h-12 w-full items-center justify-center rounded-md bg-primary px-5 font-semibold text-primary-foreground hover:opacity-90"
+            />
             <a
               href="tel:18504740261"
               className="mt-3 inline-flex h-12 w-full items-center justify-center gap-2 rounded-md border border-border font-semibold hover:bg-secondary"

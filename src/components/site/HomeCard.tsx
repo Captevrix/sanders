@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { Bath, BedDouble, Camera, MapPin, Ruler, Square } from "lucide-react";
 
 import { estimateMonthly, money, type Home } from "./data";
+import { InquiryDialog } from "./InquiryDialog";
 
 function SpecCell({
   icon: Icon,
@@ -137,12 +138,7 @@ export function HomeCard({ home }: { home: Home }) {
             >
               View details
             </Link>
-            <a
-              href="tel:18504740261"
-              className="inline-flex h-11 items-center justify-center rounded-md border border-border px-4 font-semibold hover:bg-secondary"
-            >
-              Ask about it
-            </a>
+            <InquiryDialog home={home} />
           </div>
         </div>
       </div>
