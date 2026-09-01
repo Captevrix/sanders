@@ -5,6 +5,7 @@ import { Bath, BedDouble, Camera, CheckCircle2, MapPin, Phone, Ruler, Square } f
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
+import { ShareActions } from "@/components/site/ShareActions";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { getPublicHome, listPublicHomes } from "@/lib/homes.functions";
 
