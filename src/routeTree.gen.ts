@@ -17,6 +17,7 @@ import { Route as HomesIndexRouteImport } from './routes/homes.index'
 import { Route as HomesHomeIdRouteImport } from './routes/homes.$homeId'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
 import { Route as AuthenticatedDashboardLeadsRouteImport } from './routes/_authenticated/dashboard.leads'
+import { Route as AuthenticatedDashboardTeamRouteImport } from './routes/_authenticated/dashboard.team'
 import { Route as AuthenticatedDashboardListingsIndexRouteImport } from './routes/_authenticated/dashboard.listings.index'
 import { Route as AuthenticatedDashboardListingsHomeIdRouteImport } from './routes/_authenticated/dashboard.listings.$homeId'
 
@@ -61,6 +62,12 @@ const AuthenticatedDashboardLeadsRoute =
     path: '/leads',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedDashboardTeamRoute =
+  AuthenticatedDashboardTeamRouteImport.update({
+    id: '/team',
+    path: '/team',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 const AuthenticatedDashboardListingsIndexRoute =
   AuthenticatedDashboardListingsIndexRouteImport.update({
     id: '/listings/',
@@ -81,6 +88,7 @@ export interface FileRoutesByFullPath {
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
   '/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
+  '/dashboard/team': typeof AuthenticatedDashboardTeamRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
   '/dashboard/listings/': typeof AuthenticatedDashboardListingsIndexRoute
@@ -91,6 +99,7 @@ export interface FileRoutesByTo {
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes': typeof HomesIndexRoute
   '/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
+  '/dashboard/team': typeof AuthenticatedDashboardTeamRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
   '/dashboard/listings': typeof AuthenticatedDashboardListingsIndexRoute
@@ -104,6 +113,7 @@ export interface FileRoutesById {
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
   '/_authenticated/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
+  '/_authenticated/dashboard/team': typeof AuthenticatedDashboardTeamRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
   '/_authenticated/dashboard/listings/': typeof AuthenticatedDashboardListingsIndexRoute
@@ -117,6 +127,7 @@ export interface FileRouteTypes {
     | '/homes/$homeId'
     | '/homes/'
     | '/dashboard/leads'
+    | '/dashboard/team'
     | '/dashboard/'
     | '/dashboard/listings/$homeId'
     | '/dashboard/listings/'
@@ -127,6 +138,7 @@ export interface FileRouteTypes {
     | '/homes/$homeId'
     | '/homes'
     | '/dashboard/leads'
+    | '/dashboard/team'
     | '/dashboard'
     | '/dashboard/listings/$homeId'
     | '/dashboard/listings'
@@ -139,6 +151,7 @@ export interface FileRouteTypes {
     | '/homes/$homeId'
     | '/homes/'
     | '/_authenticated/dashboard/leads'
+    | '/_authenticated/dashboard/team'
     | '/_authenticated/dashboard/'
     | '/_authenticated/dashboard/listings/$homeId'
     | '/_authenticated/dashboard/listings/'
@@ -210,6 +223,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardLeadsRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
+    '/_authenticated/dashboard/team': {
+      id: '/_authenticated/dashboard/team'
+      path: '/team'
+      fullPath: '/dashboard/team'
+      preLoaderRoute: typeof AuthenticatedDashboardTeamRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
     '/_authenticated/dashboard/listings/': {
       id: '/_authenticated/dashboard/listings/'
       path: '/listings'
@@ -229,6 +249,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedDashboardRouteChildren {
   AuthenticatedDashboardLeadsRoute: typeof AuthenticatedDashboardLeadsRoute
+  AuthenticatedDashboardTeamRoute: typeof AuthenticatedDashboardTeamRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
   AuthenticatedDashboardListingsHomeIdRoute: typeof AuthenticatedDashboardListingsHomeIdRoute
   AuthenticatedDashboardListingsIndexRoute: typeof AuthenticatedDashboardListingsIndexRoute
@@ -237,6 +258,7 @@ interface AuthenticatedDashboardRouteChildren {
 const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
   {
     AuthenticatedDashboardLeadsRoute: AuthenticatedDashboardLeadsRoute,
+    AuthenticatedDashboardTeamRoute: AuthenticatedDashboardTeamRoute,
     AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
     AuthenticatedDashboardListingsHomeIdRoute:
       AuthenticatedDashboardListingsHomeIdRoute,
