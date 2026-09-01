@@ -290,7 +290,7 @@ function Index() {
         <section id="inventory" className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
-              <p className="label-caps text-accent-foreground">On the lot</p>
+              <p className="label-caps text-accent">On the lot</p>
               <h2 className="mt-2 text-3xl font-extrabold sm:text-4xl">
                 Homes you can walk this week
               </h2>
