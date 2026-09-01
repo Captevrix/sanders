@@ -190,3 +190,64 @@
   box-shadow: var(--shadow-card);
 }
 
+/* Typography for blog post bodies rendered from HighLevel HTML. */
+.post-body {
+  font-size: 1.0625rem;
+  line-height: 1.75;
+  color: var(--color-foreground);
+}
+.post-body > * + * {
+  margin-top: 1.15em;
+}
+.post-body h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-top: 2rem;
+}
+.post-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-top: 1.75rem;
+}
+.post-body p {
+  color: var(--color-muted-foreground);
+}
+.post-body strong {
+  color: var(--color-foreground);
+  font-weight: 700;
+}
+.post-body a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.post-body ul,
+.post-body ol {
+  padding-left: 1.25rem;
+  color: var(--color-muted-foreground);
+}
+.post-body ul {
+  list-style: disc;
+}
+.post-body ol {
+  list-style: decimal;
+}
+.post-body li + li {
+  margin-top: 0.4em;
+}
+.post-body blockquote {
+  border-left: 3px solid var(--color-accent);
+  background-color: var(--color-sand);
+  padding: 0.9rem 1.1rem;
+  border-radius: 0.5rem;
+  font-style: italic;
+}
+.post-body img {
+  border-radius: 0.75rem;
+  width: 100%;
+  height: auto;
+}
+

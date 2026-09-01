@@ -14,6 +14,7 @@ const HOME_LINKS = [
 const PAGE_LINKS = [
   { label: "Financing", to: "/financing" as const },
   { label: "FAQs", to: "/faq" as const },
+  { label: "Blog", to: "/blog" as const },
   { label: "About us", to: "/about" as const },
 ];
 
