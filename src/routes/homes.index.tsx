@@ -28,6 +28,8 @@ const DESCRIPTION =
 
 export const Route = createFileRoute("/homes/")({
   validateSearch: (raw: Record<string, unknown>): HomesSearch => ({
+    q: typeof raw["q"] === "string" ? (raw["q"] as string).slice(0, 80) : DEFAULTS.q,
+    onSite: raw["onSite"] === true || raw["onSite"] === "true",
     status: typeof raw["status"] === "string" ? (raw["status"] as string) : DEFAULTS.status,
     type: typeof raw["type"] === "string" ? (raw["type"] as string) : DEFAULTS.type,
     beds: Number(raw["beds"]) || DEFAULTS.beds,
