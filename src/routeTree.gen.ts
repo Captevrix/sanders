@@ -16,6 +16,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as HomesIndexRouteImport } from './routes/homes.index'
 import { Route as HomesHomeIdRouteImport } from './routes/homes.$homeId'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
+import { Route as AuthenticatedDashboardLeadsRouteImport } from './routes/_authenticated/dashboard.leads'
 import { Route as AuthenticatedDashboardListingsIndexRouteImport } from './routes/_authenticated/dashboard.listings.index'
 import { Route as AuthenticatedDashboardListingsHomeIdRouteImport } from './routes/_authenticated/dashboard.listings.$homeId'
 
@@ -54,6 +55,12 @@ const AuthenticatedDashboardIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedDashboardLeadsRoute =
+  AuthenticatedDashboardLeadsRouteImport.update({
+    id: '/leads',
+    path: '/leads',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 const AuthenticatedDashboardListingsIndexRoute =
   AuthenticatedDashboardListingsIndexRouteImport.update({
     id: '/listings/',
@@ -73,6 +80,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
+  '/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
   '/dashboard/listings/': typeof AuthenticatedDashboardListingsIndexRoute
@@ -82,6 +90,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes': typeof HomesIndexRoute
+  '/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
   '/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
   '/dashboard/listings': typeof AuthenticatedDashboardListingsIndexRoute
@@ -94,6 +103,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
+  '/_authenticated/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
   '/_authenticated/dashboard/listings/$homeId': typeof AuthenticatedDashboardListingsHomeIdRoute
   '/_authenticated/dashboard/listings/': typeof AuthenticatedDashboardListingsIndexRoute
@@ -106,6 +116,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/homes/$homeId'
     | '/homes/'
+    | '/dashboard/leads'
     | '/dashboard/'
     | '/dashboard/listings/$homeId'
     | '/dashboard/listings/'
@@ -115,6 +126,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/homes/$homeId'
     | '/homes'
+    | '/dashboard/leads'
     | '/dashboard'
     | '/dashboard/listings/$homeId'
     | '/dashboard/listings'
@@ -126,6 +138,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/homes/$homeId'
     | '/homes/'
+    | '/_authenticated/dashboard/leads'
     | '/_authenticated/dashboard/'
     | '/_authenticated/dashboard/listings/$homeId'
     | '/_authenticated/dashboard/listings/'
@@ -190,6 +203,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
+    '/_authenticated/dashboard/leads': {
+      id: '/_authenticated/dashboard/leads'
+      path: '/leads'
+      fullPath: '/dashboard/leads'
+      preLoaderRoute: typeof AuthenticatedDashboardLeadsRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
     '/_authenticated/dashboard/listings/': {
       id: '/_authenticated/dashboard/listings/'
       path: '/listings'
@@ -208,6 +228,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface AuthenticatedDashboardRouteChildren {
+  AuthenticatedDashboardLeadsRoute: typeof AuthenticatedDashboardLeadsRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
   AuthenticatedDashboardListingsHomeIdRoute: typeof AuthenticatedDashboardListingsHomeIdRoute
   AuthenticatedDashboardListingsIndexRoute: typeof AuthenticatedDashboardListingsIndexRoute
@@ -215,6 +236,7 @@ interface AuthenticatedDashboardRouteChildren {
 
 const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
   {
+    AuthenticatedDashboardLeadsRoute: AuthenticatedDashboardLeadsRoute,
     AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
     AuthenticatedDashboardListingsHomeIdRoute:
       AuthenticatedDashboardListingsHomeIdRoute,
