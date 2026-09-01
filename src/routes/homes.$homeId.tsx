@@ -253,6 +253,10 @@ function HomeDetail() {
               </a>
             </div>
 
+            <div className="mt-8">
+              <ShareActions home={home} />
+            </div>
+
             <h2 className="mt-10 text-2xl font-extrabold">Description</h2>
             <p className="mt-3 max-w-[68ch] text-[17px] leading-relaxed text-muted-foreground">
               {home.description}
