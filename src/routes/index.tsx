@@ -226,6 +226,10 @@ function QualifyForm() {
 
 
 function Index() {
+  const { data: homes } = useSuspenseQuery(homesQuery);
+  const priced = homes.filter((h) => typeof h.price === "number");
+  const featured = homes.slice(0, 6);
+
   return (
     <div id="top" className="min-h-screen pb-20 lg:pb-0">
       <SiteHeader />
