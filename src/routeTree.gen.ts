@@ -16,6 +16,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as HomesIndexRouteImport } from './routes/homes.index'
 import { Route as HomesHomeIdRouteImport } from './routes/homes.$homeId'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
+import { Route as AuthenticatedDashboardListingsIndexRouteImport } from './routes/_authenticated/dashboard.listings.index'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -52,6 +53,12 @@ const AuthenticatedDashboardIndexRoute =
     path: '/',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedDashboardListingsIndexRoute =
+  AuthenticatedDashboardListingsIndexRouteImport.update({
+    id: '/listings/',
+    path: '/listings/',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -60,6 +67,7 @@ export interface FileRoutesByFullPath {
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/listings/': typeof AuthenticatedDashboardListingsIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -67,6 +75,7 @@ export interface FileRoutesByTo {
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes': typeof HomesIndexRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/listings': typeof AuthenticatedDashboardListingsIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -77,13 +86,26 @@ export interface FileRoutesById {
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/homes/': typeof HomesIndexRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/dashboard/listings/': typeof AuthenticatedDashboardListingsIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    '/' | '/auth' | '/dashboard' | '/homes/$homeId' | '/homes/' | '/dashboard/'
+    | '/'
+    | '/auth'
+    | '/dashboard'
+    | '/homes/$homeId'
+    | '/homes/'
+    | '/dashboard/'
+    | '/dashboard/listings/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/homes/$homeId' | '/homes' | '/dashboard'
+  to:
+    | '/'
+    | '/auth'
+    | '/homes/$homeId'
+    | '/homes'
+    | '/dashboard'
+    | '/dashboard/listings'
   id:
     | '__root__'
     | '/'
@@ -93,6 +115,7 @@ export interface FileRouteTypes {
     | '/homes/$homeId'
     | '/homes/'
     | '/_authenticated/dashboard/'
+    | '/_authenticated/dashboard/listings/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -154,16 +177,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardIndexRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
+    '/_authenticated/dashboard/listings/': {
+      id: '/_authenticated/dashboard/listings/'
+      path: '/listings'
+      fullPath: '/dashboard/listings/'
+      preLoaderRoute: typeof AuthenticatedDashboardListingsIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
   }
 }
 
 interface AuthenticatedDashboardRouteChildren {
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+  AuthenticatedDashboardListingsIndexRoute: typeof AuthenticatedDashboardListingsIndexRoute
 }
 
 const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
   {
     AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+    AuthenticatedDashboardListingsIndexRoute:
+      AuthenticatedDashboardListingsIndexRoute,
   }
 
 const AuthenticatedDashboardRouteWithChildren =
