@@ -2,16 +2,20 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Bath, BedDouble, Camera, CheckCircle2, MapPin, Phone, Ruler, Square } from "lucide-react";
 
-import { HOMES, estimateMonthly, getHome, homesSearch, money } from "@/components/site/data";
+import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { getPublicHome, listPublicHomes } from "@/lib/homes.functions";
 
 export const Route = createFileRoute("/homes/$homeId")({
-  loader: ({ params }) => {
-    const home = getHome(params.homeId);
+  loader: async ({ params }) => {
+    const [home, all] = await Promise.all([
+      getPublicHome({ data: { id: params.homeId } }),
+      listPublicHomes(),
+    ]);
     if (!home) throw notFound();
-    return { home };
+    return { home, all };
   },
   head: ({ loaderData }) => {
     if (!loaderData) {
@@ -33,9 +37,16 @@ export const Route = createFileRoute("/homes/$homeId")({
       ],
     };
   },
+  errorComponent: ({ error }) => (
+    <div role="alert" className="mx-auto max-w-2xl px-4 py-24 text-center">
+      <h1 className="text-2xl font-extrabold">We couldn't load this home.</h1>
+      <p className="mt-2 text-muted-foreground">{error.message}</p>
+    </div>
+  ),
   notFoundComponent: HomeNotFound,
   component: HomeDetail,
 });
+
 
 function HomeNotFound() {
   return (
