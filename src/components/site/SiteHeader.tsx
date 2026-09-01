@@ -14,7 +14,7 @@ const HOME_LINKS = [
 const PAGE_LINKS = [
   { label: "Financing", to: "/financing" as const },
   { label: "FAQs", to: "/faq" as const },
-  { label: "Blog", to: "/blog" as const },
+  { label: "Blog", to: "/blog" as const, search: { page: 1, category: "All" } },
   { label: "About us", to: "/about" as const },
 ];
 
@@ -44,6 +44,7 @@ export function SiteHeader() {
             <Link
               key={item.label}
               to={item.to}
+              search={item.search}
               className="hover:text-primary"
               activeProps={{ className: "text-primary" }}
             >
@@ -91,6 +92,7 @@ export function SiteHeader() {
               <Link
                 key={item.label}
                 to={item.to}
+                search={item.search}
                 onClick={() => setOpen(false)}
                 className="rounded-md px-2 py-3 font-medium hover:bg-secondary"
               >
