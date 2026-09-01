@@ -80,19 +80,21 @@ function Overview({ label, value }: { label: string; value: string }) {
 }
 
 function HomeDetail() {
-  const { home } = Route.useLoaderData();
+  const { home, all } = Route.useLoaderData() as { home: Home; all: Home[] };
   const [active, setActive] = useState(0);
   const monthly = home.price ? estimateMonthly(home.price) : null;
 
-  // The preview reuses lot photography; a real build maps home.photoCount images here.
-  const gallery = [home.image, ...HOMES.filter((h) => h.id !== home.id).map((h) => h.image)].slice(
-    0,
-    5,
-  );
+  // Uploaded photos first; otherwise fall back to lot photography for the gallery.
+  const gallery = (
+    home.photos.length > 0
+      ? home.photos
+      : [home.image, ...all.filter((h) => h.id !== home.id).map((h) => h.image)]
+  ).slice(0, 5);
 
-  const similar = HOMES.filter(
-    (h) => h.id !== home.id && (h.sectionType === home.sectionType || h.beds === home.beds),
-  ).slice(0, 3);
+  const similar = all
+    .filter((h) => h.id !== home.id && (h.sectionType === home.sectionType || h.beds === home.beds))
+    .slice(0, 3);
+
 
   return (
     <div className="min-h-screen pb-24 lg:pb-0">
