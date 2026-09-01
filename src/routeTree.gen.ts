@@ -16,6 +16,8 @@ import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FinancingRouteImport } from './routes/financing'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as FlyerHomeIdRouteImport } from './routes/flyer.$homeId'
 import { Route as HomesIndexRouteImport } from './routes/homes.index'
 import { Route as HomesHomeIdRouteImport } from './routes/homes.$homeId'
@@ -58,6 +60,16 @@ const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const FlyerHomeIdRoute = FlyerHomeIdRouteImport.update({
   id: '/flyer/$homeId',
@@ -112,8 +124,10 @@ export interface FileRoutesByFullPath {
   '/faq': typeof FaqRoute
   '/financing': typeof FinancingRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/homes/': typeof HomesIndexRoute
   '/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
   '/dashboard/team': typeof AuthenticatedDashboardTeamRoute
@@ -127,8 +141,10 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/financing': typeof FinancingRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
+  '/blog': typeof BlogIndexRoute
   '/homes': typeof HomesIndexRoute
   '/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
   '/dashboard/team': typeof AuthenticatedDashboardTeamRoute
@@ -145,8 +161,10 @@ export interface FileRoutesById {
   '/faq': typeof FaqRoute
   '/financing': typeof FinancingRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
+  '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
+  '/blog/': typeof BlogIndexRoute
   '/homes/': typeof HomesIndexRoute
   '/_authenticated/dashboard/leads': typeof AuthenticatedDashboardLeadsRoute
   '/_authenticated/dashboard/team': typeof AuthenticatedDashboardTeamRoute
@@ -163,8 +181,10 @@ export interface FileRouteTypes {
     | '/faq'
     | '/financing'
     | '/dashboard'
+    | '/blog/$slug'
     | '/flyer/$homeId'
     | '/homes/$homeId'
+    | '/blog/'
     | '/homes/'
     | '/dashboard/leads'
     | '/dashboard/team'
@@ -178,8 +198,10 @@ export interface FileRouteTypes {
     | '/auth'
     | '/faq'
     | '/financing'
+    | '/blog/$slug'
     | '/flyer/$homeId'
     | '/homes/$homeId'
+    | '/blog'
     | '/homes'
     | '/dashboard/leads'
     | '/dashboard/team'
@@ -195,8 +217,10 @@ export interface FileRouteTypes {
     | '/faq'
     | '/financing'
     | '/_authenticated/dashboard'
+    | '/blog/$slug'
     | '/flyer/$homeId'
     | '/homes/$homeId'
+    | '/blog/'
     | '/homes/'
     | '/_authenticated/dashboard/leads'
     | '/_authenticated/dashboard/team'
@@ -212,8 +236,10 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   FaqRoute: typeof FaqRoute
   FinancingRoute: typeof FinancingRoute
+  BlogSlugRoute: typeof BlogSlugRoute
   FlyerHomeIdRoute: typeof FlyerHomeIdRoute
   HomesHomeIdRoute: typeof HomesHomeIdRoute
+  BlogIndexRoute: typeof BlogIndexRoute
   HomesIndexRoute: typeof HomesIndexRoute
 }
 
@@ -267,6 +293,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/dashboard'
       preLoaderRoute: typeof AuthenticatedDashboardRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/flyer/$homeId': {
       id: '/flyer/$homeId'
@@ -369,8 +409,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   FaqRoute: FaqRoute,
   FinancingRoute: FinancingRoute,
+  BlogSlugRoute: BlogSlugRoute,
   FlyerHomeIdRoute: FlyerHomeIdRoute,
   HomesHomeIdRoute: HomesHomeIdRoute,
+  BlogIndexRoute: BlogIndexRoute,
   HomesIndexRoute: HomesIndexRoute,
 }
 export const routeTree = rootRouteImport
