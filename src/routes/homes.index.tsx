@@ -1,14 +1,13 @@
+import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { createFileRoute, Link, stripSearchParams, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
 
 import {
-  HOMES,
   SECTION_TYPES,
   STATUSES,
   estimateMonthly,
   featureCounts,
-  homesSearch,
   money,
   HOMES_SEARCH_DEFAULTS as DEFAULTS,
   type HomesSearch,
@@ -16,6 +15,12 @@ import {
 import { HomeCard } from "@/components/site/HomeCard";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { listPublicHomes } from "@/lib/homes.functions";
+
+export const homesQuery = queryOptions({
+  queryKey: ["public-homes"],
+  queryFn: () => listPublicHomes(),
+});
 
 const TITLE = "Browse Manufactured Homes in Pensacola, FL | Sanders Housing";
 const DESCRIPTION =
@@ -32,6 +37,7 @@ export const Route = createFileRoute("/homes/")({
     maxPayment: Number(raw["maxPayment"]) || DEFAULTS.maxPayment,
   }),
   search: { middlewares: [stripSearchParams(DEFAULTS)] },
+  loader: ({ context }) => context.queryClient.ensureQueryData(homesQuery),
   head: () => ({
     meta: [
       { title: TITLE },
@@ -42,6 +48,15 @@ export const Route = createFileRoute("/homes/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
+  errorComponent: ({ error }) => (
+    <div role="alert" className="mx-auto max-w-2xl px-4 py-24 text-center">
+      <h1 className="text-2xl font-extrabold">We couldn't load the lot right now.</h1>
+      <p className="mt-2 text-muted-foreground">{error.message}</p>
+    </div>
+  ),
+  notFoundComponent: () => (
+    <div className="mx-auto max-w-2xl px-4 py-24 text-center">No homes found.</div>
+  ),
   component: HomesIndex,
 });
 
@@ -52,8 +67,9 @@ function HomesIndex() {
   const search = Route.useSearch();
   const navigate = useNavigate({ from: Route.fullPath });
   const [showFeatures, setShowFeatures] = useState(search.features.length > 0);
+  const { data: homes } = useSuspenseQuery(homesQuery);
 
-  const allFeatures = useMemo(() => featureCounts(), []);
+  const allFeatures = useMemo(() => featureCounts(homes), [homes]);
 
   const setSearch = (patch: Partial<HomesSearch>) =>
     navigate({ search: (prev) => ({ ...prev, ...patch }) });
@@ -67,8 +83,8 @@ function HomesIndex() {
 
   const results = useMemo(
     () =>
-      HOMES.filter((home) => {
-        if (search.status !== "All" && !home.statuses.includes(search.status as never)) return false;
+      homes.filter((home) => {
+        if (search.status !== "All" && !home.statuses.includes(search.status)) return false;
         if (search.type !== "All" && home.sectionType !== search.type) return false;
         if (search.beds > 0 && home.beds < search.beds) return false;
         if (!search.features.every((f) => home.features.includes(f))) return false;
@@ -78,8 +94,9 @@ function HomesIndex() {
         }
         return true;
       }),
-    [search],
+    [homes, search],
   );
+
 
   const activeChips: { label: string; clear: Partial<HomesSearch> }[] = [
     ...(search.status !== "All" ? [{ label: search.status, clear: { status: "All" } }] : []),
