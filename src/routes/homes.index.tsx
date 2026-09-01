@@ -1,13 +1,14 @@
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { createFileRoute, Link, stripSearchParams, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
+import { ChevronDown, MapPin, Search, SlidersHorizontal, X } from "lucide-react";
 
 import {
   SECTION_TYPES,
   STATUSES,
   estimateMonthly,
   featureCounts,
+  isOnSite,
   money,
   HOMES_SEARCH_DEFAULTS as DEFAULTS,
   type HomesSearch,
