@@ -5,6 +5,7 @@ import { Bath, BedDouble, Camera, CheckCircle2, MapPin, Phone, Ruler, Square } f
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
+import { ShareActions } from "@/components/site/ShareActions";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { getPublicHome, listPublicHomes } from "@/lib/homes.functions";
 
@@ -251,6 +252,10 @@ function HomeDetail() {
               >
                 Request the floor plan
               </a>
+            </div>
+
+            <div className="mt-8">
+              <ShareActions home={home} />
             </div>
 
             <h2 className="mt-10 text-2xl font-extrabold">Description</h2>

@@ -164,20 +164,28 @@ export function estimateMonthly(price: number, downPct = 0.1, apr = 0.0899, year
 export const money = (n: number) => `$${n.toLocaleString("en-US")}`;
 
 export type HomesSearch = {
+  q: string;
   status: string;
   type: string;
   beds: number;
   features: string[];
   maxPayment: number;
+  /** Only homes physically on the Pensacola lot right now. */
+  onSite: boolean;
 };
 
 export const HOMES_SEARCH_DEFAULTS: HomesSearch = {
+  q: "",
   status: "All",
   type: "All",
   beds: 0,
   features: [],
   maxPayment: 0,
+  onSite: false,
 };
+
+/** A home is "on our lot" when staff tag it On Site. */
+export const isOnSite = (home: Home) => home.statuses.includes("On Site");
 
 /** Build a complete /homes search object from a partial override. */
 export const homesSearch = (patch: Partial<HomesSearch> = {}): HomesSearch => ({

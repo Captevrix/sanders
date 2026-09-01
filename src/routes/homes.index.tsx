@@ -1,13 +1,14 @@
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { createFileRoute, Link, stripSearchParams, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
+import { ChevronDown, MapPin, Search, SlidersHorizontal, X } from "lucide-react";
 
 import {
   SECTION_TYPES,
   STATUSES,
   estimateMonthly,
   featureCounts,
+  isOnSite,
   money,
   HOMES_SEARCH_DEFAULTS as DEFAULTS,
   type HomesSearch,
@@ -28,6 +29,8 @@ const DESCRIPTION =
 
 export const Route = createFileRoute("/homes/")({
   validateSearch: (raw: Record<string, unknown>): HomesSearch => ({
+    q: typeof raw["q"] === "string" ? (raw["q"] as string).slice(0, 80) : DEFAULTS.q,
+    onSite: raw["onSite"] === true || raw["onSite"] === "true",
     status: typeof raw["status"] === "string" ? (raw["status"] as string) : DEFAULTS.status,
     type: typeof raw["type"] === "string" ? (raw["type"] as string) : DEFAULTS.type,
     beds: Number(raw["beds"]) || DEFAULTS.beds,
@@ -82,8 +85,18 @@ function HomesIndex() {
     });
 
   const results = useMemo(
-    () =>
-      homes.filter((home) => {
+    () => {
+      const q = search.q.trim().toLowerCase();
+      return homes.filter((home) => {
+        if (search.onSite && !isOnSite(home)) return false;
+        if (
+          q &&
+          ![home.name, home.builder, home.propertyId, home.dimensions, home.sectionType]
+            .join(" ")
+            .toLowerCase()
+            .includes(q)
+        )
+          return false;
         if (search.status !== "All" && !home.statuses.includes(search.status)) return false;
         if (search.type !== "All" && home.sectionType !== search.type) return false;
         if (search.beds > 0 && home.beds < search.beds) return false;
@@ -93,12 +106,16 @@ function HomesIndex() {
           if (estimateMonthly(home.price) > search.maxPayment) return false;
         }
         return true;
-      }),
+      });
+    },
     [homes, search],
   );
 
+  const onSiteCount = useMemo(() => homes.filter(isOnSite).length, [homes]);
 
   const activeChips: { label: string; clear: Partial<HomesSearch> }[] = [
+    ...(search.q ? [{ label: `"${search.q}"`, clear: { q: "" } }] : []),
+    ...(search.onSite ? [{ label: "On our lot", clear: { onSite: false } }] : []),
     ...(search.status !== "All" ? [{ label: search.status, clear: { status: "All" } }] : []),
     ...(search.type !== "All" ? [{ label: search.type, clear: { type: "All" } }] : []),
     ...(search.beds > 0 ? [{ label: `${search.beds}+ beds`, clear: { beds: 0 } }] : []),
@@ -127,7 +144,37 @@ function HomesIndex() {
               home — filter down to exactly what fits your lot and your budget.
             </p>
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="relative flex-1">
+                <Search
+                  className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+                  aria-hidden
+                />
+                <input
+                  type="search"
+                  value={search.q}
+                  onChange={(e) => setSearch({ q: e.target.value })}
+                  placeholder="Search by model, builder, size or stock number"
+                  aria-label="Search homes"
+                  className="h-12 w-full rounded-md border border-border bg-background pl-9 pr-3 text-[15px]"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => setSearch({ onSite: !search.onSite })}
+                aria-pressed={search.onSite}
+                className={`inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-md border px-4 font-semibold ${
+                  search.onSite
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-background hover:bg-secondary"
+                }`}
+              >
+                <MapPin className="size-4" aria-hidden />
+                On our lot now ({onSiteCount})
+              </button>
+            </div>
+
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <label className="block">
                 <span className="label-caps text-muted-foreground">Status</span>
                 <select
