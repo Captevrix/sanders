@@ -2,6 +2,7 @@ import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 
 import { supabase } from "@/integrations/supabase/client";
+import logo from "@/assets/sanders-logo.png.asset.json";
 
 export const Route = createFileRoute("/auth")({
   ssr: false,
@@ -69,11 +70,14 @@ function AuthPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-sand px-4 py-16">
       <div className="w-full max-w-md">
-        <Link to="/" className="flex items-baseline justify-center gap-2">
-          <span className="font-display text-2xl font-extrabold tracking-tight text-primary">
-            Sanders
-          </span>
-          <span className="label-caps text-muted-foreground">Housing</span>
+        <Link to="/" className="flex justify-center">
+          <img
+            src={logo.url}
+            alt="Sanders Manufactured Housing"
+            width={500}
+            height={261}
+            className="h-16 w-auto"
+          />
         </Link>
 
         <div className="surface-card mt-6 rounded-xl p-6">
