@@ -105,12 +105,16 @@ function HomesIndex() {
           if (estimateMonthly(home.price) > search.maxPayment) return false;
         }
         return true;
-      }),
+      });
+    },
     [homes, search],
   );
 
+  const onSiteCount = useMemo(() => homes.filter(isOnSite).length, [homes]);
 
   const activeChips: { label: string; clear: Partial<HomesSearch> }[] = [
+    ...(search.q ? [{ label: `"${search.q}"`, clear: { q: "" } }] : []),
+    ...(search.onSite ? [{ label: "On our lot", clear: { onSite: false } }] : []),
     ...(search.status !== "All" ? [{ label: search.status, clear: { status: "All" } }] : []),
     ...(search.type !== "All" ? [{ label: search.type, clear: { type: "All" } }] : []),
     ...(search.beds > 0 ? [{ label: `${search.beds}+ beds`, clear: { beds: 0 } }] : []),
