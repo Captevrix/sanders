@@ -12,10 +12,10 @@ const HOME_LINKS = [
 ];
 
 const PAGE_LINKS = [
-  { label: "Financing", to: "/financing" as const },
-  { label: "FAQs", to: "/faq" as const },
+  { label: "Financing", to: "/financing" as const, search: {} },
+  { label: "FAQs", to: "/faq" as const, search: {} },
   { label: "Blog", to: "/blog" as const, search: { page: 1, category: "All" } },
-  { label: "About us", to: "/about" as const },
+  { label: "About us", to: "/about" as const, search: {} },
 ];
 
 export function SiteHeader() {
