@@ -434,60 +434,8 @@ function Index() {
               </a>
             </div>
 
-            <form className="surface-card grid gap-4 rounded-xl p-6">
-              <div className="grid gap-4 sm:grid-cols-2">
-                <label className="block">
-                  <span className="label-caps text-muted-foreground">Your name</span>
-                  <input
-                    type="text"
-                    className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]"
-                    placeholder="Jordan Alvarez"
-                  />
-                </label>
-                <label className="block">
-                  <span className="label-caps text-muted-foreground">Phone</span>
-                  <input
-                    type="tel"
-                    className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]"
-                    placeholder="(850) 000-0000"
-                  />
-                </label>
-              </div>
-              <fieldset>
-                <legend className="label-caps text-muted-foreground">Do you own land?</legend>
-                <div className="mt-1.5 grid grid-cols-3 gap-2">
-                  {["Yes", "No", "Not sure"].map((opt) => (
-                    <label
-                      key={opt}
-                      className="flex h-12 cursor-pointer items-center justify-center rounded-md border border-input bg-background font-semibold has-checked:border-primary has-checked:bg-secondary"
-                    >
-                      <input type="radio" name="land" value={opt} className="sr-only" />
-                      {opt}
-                    </label>
-                  ))}
-                </div>
-              </fieldset>
-              <label className="block">
-                <span className="label-caps text-muted-foreground">
-                  Comfortable monthly payment
-                </span>
-                <select className="mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]">
-                  <option>Under $800</option>
-                  <option>$800 – $1,200</option>
-                  <option>$1,200 – $1,600</option>
-                  <option>$1,600+</option>
-                </select>
-              </label>
-              <button
-                type="button"
-                className="h-12 rounded-md bg-accent font-semibold text-accent-foreground hover:opacity-90"
-              >
-                Check my options
-              </button>
-              <p className="text-xs text-muted-foreground">
-                This is a soft inquiry. It will not affect your credit score.
-              </p>
-            </form>
+            <QualifyForm />
+
           </div>
         </section>
       </main>
