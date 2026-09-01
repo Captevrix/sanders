@@ -144,7 +144,37 @@ function HomesIndex() {
               home — filter down to exactly what fits your lot and your budget.
             </p>
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+              <div className="relative flex-1">
+                <Search
+                  className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
+                  aria-hidden
+                />
+                <input
+                  type="search"
+                  value={search.q}
+                  onChange={(e) => setSearch({ q: e.target.value })}
+                  placeholder="Search by model, builder, size or stock number"
+                  aria-label="Search homes"
+                  className="h-12 w-full rounded-md border border-border bg-background pl-9 pr-3 text-[15px]"
+                />
+              </div>
+              <button
+                type="button"
+                onClick={() => setSearch({ onSite: !search.onSite })}
+                aria-pressed={search.onSite}
+                className={`inline-flex h-12 shrink-0 items-center justify-center gap-2 rounded-md border px-4 font-semibold ${
+                  search.onSite
+                    ? "border-primary bg-primary text-primary-foreground"
+                    : "border-border bg-background hover:bg-secondary"
+                }`}
+              >
+                <MapPin className="size-4" aria-hidden />
+                On our lot now ({onSiteCount})
+              </button>
+            </div>
+
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
               <label className="block">
                 <span className="label-caps text-muted-foreground">Status</span>
                 <select
