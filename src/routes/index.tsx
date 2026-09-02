@@ -126,12 +126,17 @@ function PaymentEstimator({ homes }: { homes: Home[] }) {
 
 function QualifyForm() {
   const [form, setForm] = useState({ name: "", phone: "", land: "Yes", budget: "Under $800" });
+  const [consent, setConsent] = useState<ConsentState>(EMPTY_CONSENT);
   const [state, setState] = useState<"idle" | "busy" | "done">("idle");
   const [error, setError] = useState("");
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    if (!consent.sms) {
+      setError("Please check the box agreeing to be contacted so we can reply.");
+      return;
+    }
     setState("busy");
     try {
       await submitLead({
@@ -140,6 +145,7 @@ function QualifyForm() {
           phone: form.phone,
           message: `Owns land: ${form.land}. Comfortable payment: ${form.budget}.`,
           source: "qualify",
+          ...consentPayload(consent),
         },
       });
       setState("done");
@@ -148,6 +154,7 @@ function QualifyForm() {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     }
   }
+
 
   if (state === "done") {
     return (
