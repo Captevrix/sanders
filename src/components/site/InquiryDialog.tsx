@@ -178,6 +178,7 @@ export function InquiryDialog({
                   className="rounded-md border border-border bg-background px-3 py-2 text-[15px] outline-none focus:border-primary"
                 />
               </label>
+              <ConsentFields value={consent} onChange={setConsent} idPrefix={`inq-${home.id}`} />
               {error && (
                 <p role="alert" className="text-sm font-semibold text-destructive">
                   {error}
@@ -192,9 +193,9 @@ export function InquiryDialog({
                 Send my question
               </button>
               <p className="text-center text-xs text-muted-foreground">
-                By submitting, you agree to be contacted about this home. This is not a credit
-                application.
+                This is not a credit application.
               </p>
+
             </form>
           </>
         )}
