@@ -104,7 +104,9 @@ export function SiteHeader() {
                 {item.label}
               </Link>
             ))}
+            <SocialLinks className="mt-2 px-2" />
           </div>
+
         </nav>
       )}
     </header>
