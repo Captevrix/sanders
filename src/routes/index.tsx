@@ -101,7 +101,7 @@ function PaymentEstimator({ homes }: { homes: Home[] }) {
           That's roughly a{" "}
           <strong className="font-display text-lg">{money(affordable)}</strong> home.{" "}
           <strong>{matches}</strong> of our {priced.length} priced{" "}
-          {matches === 1 ? "home fits" : "homes fit"} it today, and {unpriced} more{" "}
+          {matches === 1 ? "homes fits" : "homes fit"} it today, and {unpriced} more{" "}
           {unpriced === 1 ? "is" : "are"} quoted with your options, so call and we'll price{" "}
           {unpriced === 1 ? "it" : "them"} against this number.
         </p>
