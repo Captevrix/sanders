@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Phone } from "lucide-react";
 
+import awardImg from "@/assets/best-of-2026-award.webp.asset.json";
 import logo from "@/assets/sanders-logo.png.asset.json";
 import { homesSearch } from "./data";
 
@@ -23,6 +24,19 @@ export function SiteFooter() {
           <a href="tel:18504740261" className="mt-1 inline-block font-semibold text-primary">
             1-850-474-0261
           </a>
+          <Link to="/about" className="mt-4 flex items-center gap-3">
+            <img
+              src={awardImg.url}
+              alt="Best of 2026 Mobile Home Dealer award, BusinessRate, powered by Google Reviews"
+              loading="lazy"
+              width={1227}
+              height={1536}
+              className="w-20 rounded-md shadow-sm"
+            />
+            <span className="max-w-[16ch] text-sm text-muted-foreground">
+              Best of 2026, Mobile Home Dealer, Pensacola
+            </span>
+          </Link>
         </div>
 
         <nav className="grid gap-2 text-[15px]">
