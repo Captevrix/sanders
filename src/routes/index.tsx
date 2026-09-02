@@ -54,8 +54,10 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function PaymentEstimator({ priced }: { priced: Home[] }) {
+function PaymentEstimator({ homes }: { homes: Home[] }) {
   const [budget, setBudget] = useState(1100);
+  const priced = homes.filter((h) => typeof h.price === "number");
+  const unpriced = homes.length - priced.length;
 
   const affordable = useMemo(() => {
     // invert the payment formula to a rough max cash price
@@ -290,7 +292,7 @@ function Index() {
               </div>
             </div>
 
-            <PaymentEstimator priced={priced} />
+            <PaymentEstimator homes={homes} />
           </div>
         </section>
 
