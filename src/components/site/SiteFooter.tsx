@@ -24,6 +24,8 @@ export function SiteFooter() {
           <a href="tel:18504740261" className="mt-1 inline-block font-semibold text-primary">
             1-850-474-0261
           </a>
+          <SocialLinks className="mt-4" />
+
           <Link to="/about" className="mt-4 flex items-center gap-3">
             <img
               src={awardImg.url}
