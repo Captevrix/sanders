@@ -4,7 +4,7 @@ import { homesSearch } from "@/components/site/data";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 
-const TITLE = "Manufactured Home FAQs — Pensacola, FL | Sanders Housing";
+const TITLE = "Manufactured Home FAQs in Pensacola, FL | Sanders Housing";
 const DESCRIPTION =
   "Answers on land, financing, delivery and setup costs, wind zones, insurance, warranties and timelines for buying a manufactured home in Northwest Florida.";
 
@@ -15,7 +15,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Why don't most homes show a price?",
-    a: "The sticker on a manufactured home is only part of the number. Delivery distance, blocking and anchoring, steps, skirting, A/C, and any options you add all change it. We quote the full delivered-and-set price — usually the same day you ask.",
+    a: "The sticker on a manufactured home is only part of the number. Delivery distance, blocking and anchoring, steps, skirting, A/C, and any options you add all change it. We quote the full delivered-and-set price, usually the same day you ask.",
   },
   {
     q: "What does it cost to get the home set up?",
@@ -35,7 +35,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Are these homes safe in a hurricane?",
-    a: "Every home we stock is built to HUD standards for its wind zone — coastal Northwest Florida requires Wind Zone II or higher. Ask to see the data plate inside the home; we'll show you exactly what it's rated for and how the anchoring system works.",
+    a: "Every home we stock is built to HUD standards for its wind zone, coastal Northwest Florida requires Wind Zone II or higher. Ask to see the data plate inside the home; we'll show you exactly what it's rated for and how the anchoring system works.",
   },
   {
     q: "What kind of insurance will I need?",
@@ -43,7 +43,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "What warranty comes with the home?",
-    a: "New homes carry the manufacturer's warranty — usually one year on the home with longer terms on specific components — plus our setup workmanship. We hand you the paperwork at the final walkthrough.",
+    a: "New homes carry the manufacturer's warranty, usually one year on the home with longer terms on specific components, plus our setup workmanship. We hand you the paperwork at the final walkthrough.",
   },
   {
     q: "Can I customize a home?",
@@ -55,7 +55,7 @@ const FAQS: { q: string; a: string }[] = [
   },
   {
     q: "Can I see a home before I buy?",
-    a: "Yes — homes tagged \"On Site\" are physically on our lot right now and open to walk through during business hours. Filter to those on the browse page.",
+    a: "Yes, homes tagged \"On Site\" are physically on our lot right now and open to walk through during business hours. Filter to those on the browse page.",
   },
 ];
 
@@ -99,7 +99,7 @@ function FaqPage() {
               The questions we answer every day
             </h1>
             <p className="mt-3 max-w-[62ch] text-[17px] text-muted-foreground">
-              Land, money, hurricanes and timelines — the honest version.
+              Land, money, hurricanes and timelines, the honest version.
             </p>
           </div>
         </section>

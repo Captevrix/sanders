@@ -16,14 +16,14 @@ export const Route = createFileRoute("/blog/$slug")({
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) {
-      return { meta: [{ title: "Post not found — Sanders Housing" }, { name: "robots", content: "noindex" }] };
+      return { meta: [{ title: "Post not found | Sanders Housing" }, { name: "robots", content: "noindex" }] };
     }
     const { post } = loaderData;
     const url = `${SITE}/blog/${params.slug}`;
     const image = post.coverImage;
     return {
       meta: [
-        { title: `${post.title} — Sanders Housing` },
+        { title: `${post.title} | Sanders Housing` },
         { name: "description", content: post.excerpt },
         { property: "og:title", content: post.title },
         { property: "og:description", content: post.excerpt },
@@ -127,7 +127,7 @@ function BlogPostPage() {
         <div className="surface-card mt-12 rounded-xl p-6">
           <h2 className="text-xl font-bold tracking-tight">Questions about your situation?</h2>
           <p className="mt-1 text-muted-foreground">
-            Call the lot and we&apos;ll walk it through — land, payment or delivery. Mon–Sat 9–6.
+            Call the lot and we&apos;ll walk it through, land, payment or delivery. Mon–Sat 9–6.
           </p>
           <div className="mt-4 flex flex-wrap gap-3">
             <a

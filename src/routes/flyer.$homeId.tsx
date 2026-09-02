@@ -69,7 +69,7 @@ function FlyerPage() {
   const strip = shots.slice(1, 4);
 
   useEffect(() => {
-    document.title = `${home.name} — Sanders Housing flyer`;
+    document.title = `${home.name} | Sanders Housing flyer`;
   }, [home.name]);
 
   return (
@@ -203,7 +203,7 @@ function FlyerPage() {
         <footer className="mt-6 flex flex-wrap items-center justify-between gap-3 border-t-4 border-primary pt-4">
           <div>
             <p className="font-display text-xl font-extrabold">
-              Walk it today — Mon–Sat 9–6
+              Walk it today, Mon–Sat 9–6
             </p>
             <p className="text-[13px] text-muted-foreground">
               Ask about delivery, set and tie-down on your land. Equal Housing Opportunity.

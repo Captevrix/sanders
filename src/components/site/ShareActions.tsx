@@ -16,7 +16,7 @@ export function shareText(home: Home) {
     `${home.name} by ${home.builder}`,
     `${home.beds} bed · ${home.baths} bath · ${home.sqft.toLocaleString("en-US")} sq ft · ${home.dimensions}`,
     monthly,
-    `Sanders Manufactured Housing — 10300 Pensacola Blvd, Pensacola, FL · 1-850-474-0261`,
+    `Sanders Manufactured Housing, 10300 Pensacola Blvd, Pensacola, FL · 1-850-474-0261`,
     homeUrl(home),
   ].join("\n");
 }
@@ -26,13 +26,13 @@ export function ShareActions({ home }: { home: Home }) {
 
   const onShare = async () => {
     const url = homeUrl(home);
-    const data = { title: `${home.name} — Sanders Housing`, text: shareText(home), url };
+    const data = { title: `${home.name} | Sanders Housing`, text: shareText(home), url };
     if (typeof navigator !== "undefined" && navigator.share) {
       try {
         await navigator.share(data);
         return;
       } catch {
-        /* user dismissed — fall through to copy */
+        /* user dismissed, fall through to copy */
       }
     }
     try {

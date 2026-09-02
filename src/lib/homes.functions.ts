@@ -148,7 +148,7 @@ export const submitLead = createServerFn({ method: "POST" })
         });
         if (!res.ok) console.error(`HighLevel webhook returned ${res.status}`);
       } catch (webhookError) {
-        // Never block the user on a webhook failure — the lead is stored.
+        // Never block the user on a webhook failure, the lead is stored.
         console.error("HighLevel webhook failed", webhookError);
       }
     }

@@ -363,7 +363,7 @@ function ListingEditor() {
         <p className="mt-1 text-sm text-muted-foreground">
           {isNew
             ? "Save the listing first, then upload photos."
-            : "Drag to reorder — the first photo is the cover image on the website."}
+            : "Drag to reorder, the first photo is the cover image on the website."}
         </p>
 
         {!isNew && (
@@ -411,7 +411,7 @@ function ListingEditor() {
               ))}
               {photos.length === 0 && (
                 <li className="col-span-full rounded-lg border border-dashed border-border p-6 text-center text-sm text-muted-foreground">
-                  No uploads yet — the stock cover image below is used on the website.
+                  No uploads yet, the stock cover image below is used on the website.
                   <img
                     src={resolveImage(form.cover_image)}
                     alt=""

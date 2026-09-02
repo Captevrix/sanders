@@ -8,7 +8,7 @@ import { SiteHeader } from "@/components/site/SiteHeader";
 import { listPosts, type BlogPost } from "@/lib/blog.functions";
 import fallbackCover from "@/assets/setup.jpg";
 
-const TITLE = "Sanders Housing Blog — buying, financing and setup in Pensacola";
+const TITLE = "Sanders Housing Blog: buying, financing and setup in Pensacola";
 const DESCRIPTION =
   "Straight answers on manufactured home pricing, wind zones, land-home financing and delivery on the Florida Gulf Coast, from the team on Pensacola Blvd.";
 
@@ -37,7 +37,7 @@ export const Route = createFileRoute("/blog/")({
       { name: "twitter:card", content: "summary_large_image" },
     ],
   }),
-  errorComponent: () => <BlogShell><p className="py-20 text-center text-muted-foreground">The blog is taking a break — please try again shortly.</p></BlogShell>,
+  errorComponent: () => <BlogShell><p className="py-20 text-center text-muted-foreground">The blog is taking a break, please try again shortly.</p></BlogShell>,
   component: BlogIndex,
 });
 
@@ -85,7 +85,7 @@ function BlogIndex() {
               Straight talk about buying a manufactured home
             </h1>
             <p className="mt-4 max-w-2xl text-lg text-muted-foreground">
-              Pricing, financing, wind zones, land and setup — written by the people who deliver and set
+              Pricing, financing, wind zones, land and setup, written by the people who deliver and set
               these homes across Northwest Florida.
             </p>
           </div>

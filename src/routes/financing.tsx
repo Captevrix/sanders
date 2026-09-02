@@ -33,7 +33,7 @@ const PROGRAMS = [
   {
     icon: Landmark,
     title: "Land-home loan",
-    body: "Home and land financed together as real property. Lower rates and longer terms — often the cheapest monthly payment if you own or are buying land.",
+    body: "Home and land financed together as real property. Lower rates and longer terms, often the cheapest monthly payment if you own or are buying land.",
   },
   {
     icon: ShieldCheck,
@@ -156,8 +156,8 @@ function FinancingPage() {
             </h1>
             <p className="mt-4 max-w-[62ch] text-[17px] leading-relaxed text-muted-foreground">
               Most families here shop by monthly payment. We work with lenders who finance
-              manufactured homes every day — in a park, on your own land, or with land you're still
-              buying — and a pre-qualification takes minutes with no hit to your credit.
+              manufactured homes every day, in a park, on your own land, or with land you're still
+              buying, and a pre-qualification takes minutes with no hit to your credit.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <Link
@@ -165,7 +165,7 @@ function FinancingPage() {
                 hash="qualify"
                 className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-5 font-semibold text-accent-foreground hover:opacity-90"
               >
-                See if you qualify — no credit hit
+                See if you qualify: no credit hit
               </Link>
               <a
                 href="tel:18504740261"
@@ -198,7 +198,7 @@ function FinancingPage() {
                 "Photo ID for everyone on the loan",
                 "Two recent pay stubs or two years of tax returns if self-employed",
                 "Rough idea of monthly debts (car, cards, child support)",
-                "Where the home is going — address, park name, or the parcel number",
+                "Where the home is going, address, park name, or the parcel number",
               ].map((item) => (
                 <li key={item} className="flex gap-2">
                   <span aria-hidden className="text-primary">

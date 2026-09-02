@@ -46,7 +46,7 @@ export type Home = {
   dimensions: string;
   windZone: string;
   features: string[];
-  /** Optional — most homes on the lot are quoted, not listed. */
+  /** Optional: most homes on the lot are quoted, not listed. */
   price?: number;
   description: string;
   published: boolean;

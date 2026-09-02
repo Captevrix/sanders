@@ -90,7 +90,7 @@ function PaymentEstimator({ priced }: { priced: Home[] }) {
       <div className="mt-5 rounded-lg bg-sand px-4 py-3">
         <p className="text-[15px]">
           That's roughly a{" "}
-          <strong className="font-display text-lg">{money(affordable)}</strong> home — and{" "}
+          <strong className="font-display text-lg">{money(affordable)}</strong> home, and{" "}
           <strong>{matches}</strong> of our {priced.length} priced homes fit it today. Most
           homes on the lot are quoted with your options, so call and we'll price it against this
           number.
@@ -101,7 +101,7 @@ function PaymentEstimator({ priced }: { priced: Home[] }) {
         href="#qualify"
         className="mt-4 inline-flex h-12 w-full items-center justify-center rounded-md bg-accent px-5 font-semibold text-accent-foreground hover:opacity-90"
       >
-        See if you qualify — no credit hit
+        See if you qualify: no credit hit
       </a>
     </div>
   );
@@ -256,7 +256,7 @@ function Index() {
               </h1>
               <p className="mt-5 max-w-[52ch] text-lg text-background/85">
                 Every home on our lot shows the cash price and the estimated monthly payment. No
-                "call for pricing," no runaround — just the numbers, then a person who picks up.
+                "call for pricing," no runaround, just the numbers, then a person who picks up.
               </p>
 
               <div className="mt-7 grid gap-3 sm:grid-cols-3">
@@ -295,7 +295,7 @@ function Index() {
                 Homes you can walk this week
               </h2>
               <p className="mt-2 max-w-[56ch] text-muted-foreground">
-                Price, payment, square footage and box size on every card — so you know what fits
+                Price, payment, square footage and box size on every card, so you know what fits
                 your budget and your lot before you drive out.
               </p>
             </div>
@@ -399,7 +399,7 @@ function Index() {
         <section id="trust" className="mx-auto max-w-6xl px-4 py-14 sm:px-6 sm:py-20">
           <h2 className="text-3xl font-extrabold sm:text-4xl">Built for Gulf Coast weather</h2>
           <p className="mt-2 max-w-[60ch] text-muted-foreground">
-            Every home we sell is HUD code and rated for our wind zone. Ask to see the data plate —
+            Every home we sell is HUD code and rated for our wind zone. Ask to see the data plate, 
             we'll show you.
           </p>
           <dl className="mt-8 grid gap-px overflow-hidden rounded-xl border border-border bg-border sm:grid-cols-2 lg:grid-cols-4">
