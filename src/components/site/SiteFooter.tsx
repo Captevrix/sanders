@@ -4,6 +4,8 @@ import { Phone } from "lucide-react";
 import awardImg from "@/assets/best-of-2026-award.webp.asset.json";
 import logo from "@/assets/sanders-logo.png.asset.json";
 import { homesSearch } from "./data";
+import { SocialLinks } from "./SocialLinks";
+
 
 export function SiteFooter() {
   return (
