@@ -284,6 +284,11 @@ export type Lead = {
   status: string;
   internal_note: string | null;
   created_at: string;
+  sms_consent: boolean;
+  marketing_consent: boolean;
+  consent_text: string | null;
+  consent_at: string | null;
+  consent_source_url: string | null;
 };
 
 export const listLeads = createServerFn({ method: "GET" })
@@ -291,7 +296,7 @@ export const listLeads = createServerFn({ method: "GET" })
   .handler(async ({ context }): Promise<Lead[]> => {
     const { data, error } = await context.supabase
       .from("leads")
-      .select("id,name,email,phone,message,source,home_id,status,internal_note,created_at")
+      .select("id,name,email,phone,message,source,home_id,status,internal_note,created_at,sms_consent,marketing_consent,consent_text,consent_at,consent_source_url")
       .order("created_at", { ascending: false });
     if (error) throw new Error(error.message);
     return (data ?? []) as Lead[];
