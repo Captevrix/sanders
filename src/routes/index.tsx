@@ -15,7 +15,14 @@ import {
 import awardImg from "@/assets/best-of-2026-award.webp.asset.json";
 import heroHome from "@/assets/hero-home.jpg";
 import setupImg from "@/assets/setup.jpg";
+import {
+  ConsentFields,
+  consentPayload,
+  EMPTY_CONSENT,
+  type ConsentState,
+} from "@/components/site/ConsentFields";
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
+
 import { HomeCard } from "@/components/site/HomeCard";
 import { ReviewsSection, reviewsQuery } from "@/components/site/Reviews";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
