@@ -141,7 +141,7 @@ function HomesIndex() {
             </h1>
             <p className="mt-2 max-w-[62ch] text-muted-foreground">
               Beds, baths, square footage, box size, builder and the full feature list on every
-              home — filter down to exactly what fits your lot and your budget.
+              home, filter down to exactly what fits your lot and your budget.
             </p>
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
@@ -229,7 +229,7 @@ function HomesIndex() {
                   {search.maxPayment > 0 ? (
                     <strong className="text-primary">{money(search.maxPayment)}/mo</strong>
                   ) : (
-                    "— any"
+                    "Any"
                   )}
                 </span>
                 <input
@@ -323,7 +323,7 @@ function HomesIndex() {
             <div className="surface-card mt-6 rounded-xl p-10 text-center">
               <p className="font-display text-xl font-extrabold">No homes match those filters.</p>
               <p className="mt-2 text-muted-foreground">
-                New homes land on the lot weekly — call us and we'll tell you what's coming.
+                New homes land on the lot weekly, call us and we'll tell you what's coming.
               </p>
               <button
                 type="button"
@@ -341,7 +341,7 @@ function HomesIndex() {
               hash="qualify"
               className="inline-flex h-12 items-center justify-center rounded-md bg-accent px-5 font-semibold text-accent-foreground hover:opacity-90"
             >
-              See if you qualify — no credit hit
+              See if you qualify: no credit hit
             </Link>
             <a
               href="tel:18504740261"

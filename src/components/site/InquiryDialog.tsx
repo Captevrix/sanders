@@ -82,7 +82,7 @@ export function InquiryDialog({
         {sent ? (
           <div className="flex flex-col items-center gap-3 py-6 text-center">
             <CheckCircle2 className="size-12 text-primary" aria-hidden />
-            <DialogTitle className="text-2xl">We got it — thank you!</DialogTitle>
+            <DialogTitle className="text-2xl">We got it, thank you!</DialogTitle>
             <p className="max-w-[40ch] text-[15px] text-muted-foreground">
               Someone from our team will reach out about {home.name} shortly. Need an answer right
               now? Call us at{" "}
@@ -97,7 +97,7 @@ export function InquiryDialog({
             <DialogHeader>
               <DialogTitle>Ask about this home</DialogTitle>
               <DialogDescription>
-                No obligation — tell us how to reach you and we'll answer your questions.
+                No obligation, tell us how to reach you and we'll answer your questions.
               </DialogDescription>
             </DialogHeader>
 

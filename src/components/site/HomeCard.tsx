@@ -121,7 +121,7 @@ export function HomeCard({ home }: { home: Home }) {
                   Get your payment
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  Pricing varies by options and land — we'll quote it same day.
+                  Pricing varies by options and land, we'll quote it same day.
                 </p>
               </div>
               <p className="mt-2 text-xs text-muted-foreground">

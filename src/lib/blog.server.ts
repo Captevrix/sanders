@@ -179,15 +179,15 @@ const FALLBACK_POSTS: BlogPost[] = [
     slug: "what-a-manufactured-home-really-costs-in-pensacola",
     title: "What a manufactured home really costs in Pensacola",
     excerpt:
-      "Sticker price is only part of it. Here is how delivery, set, tie-downs, steps and A/C add up — and what a realistic monthly payment looks like.",
+      "Sticker price is only part of it. Here is how delivery, set, tie-downs, steps and A/C add up, and what a realistic monthly payment looks like.",
     coverImage: null,
     author: "Sanders Housing",
     category: "Buying guide",
     publishedAt: "2026-08-18T14:00:00.000Z",
     readTime: 6,
-    html: `<p>Most people start with the price on the home and stop there. On the Gulf Coast, the number that matters is the delivered-and-set price — the home plus everything it takes to make it livable on your land or in your park space.</p>
+    html: `<p>Most people start with the price on the home and stop there. On the Gulf Coast, the number that matters is the delivered-and-set price, the home plus everything it takes to make it livable on your land or in your park space.</p>
 <h2>The pieces of a real quote</h2>
-<ul><li><strong>The home itself</strong> — what you walk through on the lot.</li><li><strong>Transport</strong> — moving each section from our lot to your site.</li><li><strong>Set and level</strong> — blocking, leveling, marrying multi-section homes.</li><li><strong>Anchoring</strong> — tie-downs to the wind zone your address requires.</li><li><strong>Steps, skirting and A/C</strong> — the finish items that get you a certificate of occupancy.</li></ul>
+<ul><li><strong>The home itself</strong>, what you walk through on the lot.</li><li><strong>Transport</strong>, moving each section from our lot to your site.</li><li><strong>Set and level</strong>, blocking, leveling, marrying multi-section homes.</li><li><strong>Anchoring</strong>, tie-downs to the wind zone your address requires.</li><li><strong>Steps, skirting and A/C</strong>, the finish items that get you a certificate of occupancy.</li></ul>
 <h2>Turning that into a monthly payment</h2>
 <p>Once you have the delivered price, the payment depends on three things: your down payment, your rate, and the term. A land-home loan generally prices better than a chattel (home-only) loan, and a bigger down payment moves the payment more than shopping a quarter point of rate.</p>
 <blockquote>Ask any dealer for the delivered-and-set number in writing before you talk financing. If they will not give it to you, that is your answer.</blockquote>
@@ -205,7 +205,7 @@ const FALLBACK_POSTS: BlogPost[] = [
     readTime: 5,
     html: `<p>Every HUD-code home carries a data plate that lists the wind zone it was built for. In Escambia and Santa Rosa counties, most sites require Wind Zone II, and coastal parcels can require Wind Zone III.</p>
 <h2>Where to look</h2>
-<p>The data plate is usually inside a kitchen cabinet or the master closet. It lists wind zone, roof load and thermal zone. Photograph it — your insurer and your permitting office will both ask.</p>
+<p>The data plate is usually inside a kitchen cabinet or the master closet. It lists wind zone, roof load and thermal zone. Photograph it, your insurer and your permitting office will both ask.</p>
 <h2>Why it matters</h2>
 <ul><li>Permits: the county will not approve a set that is under-rated for the address.</li><li>Insurance: correct rating plus documented tie-downs usually lowers premium.</li><li>Resale: an under-rated home shrinks the pool of sites it can legally go on.</li></ul>
 <p>Every home we stock is rated for the coast, and we show you the plate before you sign anything.</p>`,
@@ -214,7 +214,7 @@ const FALLBACK_POSTS: BlogPost[] = [
     slug: "do-you-own-land-the-first-fork-in-the-road",
     title: "Do you own land? The first fork in the road",
     excerpt:
-      "Land-home, park space, or family property — the answer changes your loan, your timeline and your total cost more than the home you pick.",
+      "Land-home, park space, or family property, the answer changes your loan, your timeline and your total cost more than the home you pick.",
     coverImage: null,
     author: "Sanders Housing",
     category: "Financing",
@@ -224,9 +224,9 @@ const FALLBACK_POSTS: BlogPost[] = [
 <h2>You own the land</h2>
 <p>You can pursue a land-home loan, which is usually the lowest rate and the longest term available. Expect a site check for access, slope and utilities.</p>
 <h2>You are renting a park space</h2>
-<p>That is a chattel loan — home only. Rates run higher and terms shorter, but the approval is faster and the site work is simpler.</p>
+<p>That is a chattel loan, home only. Rates run higher and terms shorter, but the approval is faster and the site work is simpler.</p>
 <h2>Family land</h2>
-<p>Very common here, and workable — but the lender needs to see the ownership and, often, a recorded agreement. Start that paperwork early; it is the piece that delays closings.</p>
+<p>Very common here, and workable, but the lender needs to see the ownership and, often, a recorded agreement. Start that paperwork early; it is the piece that delays closings.</p>
 <p>Not sure which one you are? Call us and we will walk it through in five minutes.</p>`,
   },
 ];

@@ -26,7 +26,7 @@ export const Route = createFileRoute("/homes/$homeId")({
       };
     }
     const { home } = loaderData;
-    const title = `${home.name} by ${home.builder} — ${home.beds} bed, ${home.dimensions} | Sanders Housing`;
+    const title = `${home.name} by ${home.builder}: ${home.beds} bed, ${home.dimensions} | Sanders Housing`;
     const description = `${home.name}: ${home.beds} bed, ${home.baths} bath, ${home.sqft.toLocaleString("en-US")} sq ft ${home.sectionType.toLowerCase()} manufactured home on our Pensacola lot. Full specs, features and floor plan.`;
     return {
       meta: [
@@ -243,7 +243,7 @@ function HomeDetail() {
               </dl>
               <div className="mt-4 flex aspect-[16/9] items-center justify-center rounded-lg border border-dashed border-border bg-sand text-center">
                 <p className="max-w-[36ch] px-6 text-[15px] text-muted-foreground">
-                  {home.dimensions} floor plan drawing — downloadable PDF slots in here on the
+                  {home.dimensions} floor plan drawing, downloadable PDF slots in here on the
                   production build.
                 </p>
               </div>
@@ -267,7 +267,7 @@ function HomeDetail() {
             <div className="mt-6 rounded-xl bg-sand p-5">
               <p className="font-display text-lg font-extrabold">The Sanders guarantee</p>
               <p className="mt-1 max-w-[62ch] text-[15px] text-muted-foreground">
-                First home, growing family, or downsizing from a site-built house — we'll find a
+                First home, growing family, or downsizing from a site-built house, we'll find a
                 home that fits your budget and handle delivery, set and tie-down after you sign.
               </p>
             </div>
@@ -295,7 +295,7 @@ function HomeDetail() {
                   Get your payment
                 </p>
                 <p className="mt-1 text-[15px] text-muted-foreground">
-                  Pricing varies by options and land — we'll quote it same day.
+                  Pricing varies by options and land, we'll quote it same day.
                 </p>
               </>
             )}
@@ -305,7 +305,7 @@ function HomeDetail() {
               hash="qualify"
               className="mt-5 inline-flex h-12 w-full items-center justify-center rounded-md bg-accent px-5 font-semibold text-accent-foreground hover:opacity-90"
             >
-              See if you qualify — no credit hit
+              See if you qualify: no credit hit
             </Link>
             <InquiryDialog
               home={home}

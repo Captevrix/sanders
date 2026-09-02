@@ -6,7 +6,7 @@ import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import setupImg from "@/assets/setup.jpg";
 
-const TITLE = "About Sanders Manufactured Housing — Pensacola, FL";
+const TITLE = "About Sanders Manufactured Housing | Pensacola, FL";
 const DESCRIPTION =
   "Family-run manufactured home dealer on Pensacola Blvd. Meet the team, see how we deliver and set homes, and learn what to expect from first visit to move-in day.";
 
@@ -28,7 +28,7 @@ const VALUES = [
   {
     icon: HeartHandshake,
     title: "Straight answers, first visit",
-    body: "We tell you what a home really costs — home, delivery, set, tie-downs, steps and A/C — before you fill out anything.",
+    body: "We tell you what a home really costs, home, delivery, set, tie-downs, steps and A/C, before you fill out anything.",
   },
   {
     icon: Truck,
@@ -50,7 +50,7 @@ const VALUES = [
 const STEPS = [
   ["Walk the lot", "Tour homes in person or send us the plan you like. No appointment needed."],
   ["Get your number", "We quote the home plus setup and give you a real monthly payment range."],
-  ["Qualify", "A soft pre-qualification with our lenders — no hit to your credit to start."],
+  ["Qualify", "A soft pre-qualification with our lenders, no hit to your credit to start."],
   ["Site check", "We look at your land or park space for access, slope and utilities."],
   ["Delivery & set", "Transport, block, level, anchor, trim out and hook up."],
   ["Move in", "Final walkthrough, warranty paperwork, keys."],
@@ -70,7 +70,7 @@ function AboutPage() {
             <p className="mt-4 max-w-[62ch] text-[17px] leading-relaxed text-muted-foreground">
               Sanders Manufactured Housing has been putting Northwest Florida families in
               factory-built homes from our lot at 10300 Pensacola Blvd. We stock single and multi
-              section homes from builders like Clayton, Deer Valley, Southern Energy and Cavalier —
+              section homes from builders like Clayton, Deer Valley, Southern Energy and Cavalier, 
               and we stay with you from the first walkthrough through the day the home is set on
               your land.
             </p>

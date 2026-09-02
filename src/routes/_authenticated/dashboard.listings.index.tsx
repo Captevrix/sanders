@@ -77,7 +77,7 @@ function Listings() {
                   {home.sqft.toLocaleString("en-US")} sq ft
                 </p>
                 <p className="text-sm text-muted-foreground">
-                  {home.price ? money(home.price) : "Quoted — no price shown"} ·{" "}
+                  {home.price ? money(home.price) : "Quoted, no price shown"} ·{" "}
                   {home.features.length} features · {home.photoCount} photos
                 </p>
               </div>
