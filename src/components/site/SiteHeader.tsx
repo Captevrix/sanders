@@ -57,13 +57,13 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link to="/" className="flex items-center" aria-label="Sanders Manufactured Housing home">
+        <Link to="/" className="-ml-1 flex items-center" aria-label="Sanders Manufactured Housing home">
           <img
             src={logo.url}
             alt="Sanders Manufactured Housing"
             width={500}
             height={261}
-            className="h-10 w-auto sm:h-11"
+            className="h-12 w-auto sm:h-14"
           />
         </Link>
 
