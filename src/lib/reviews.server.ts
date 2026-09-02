@@ -80,8 +80,8 @@ export function parseWidgetHtml(html: string): ReviewsPayload {
     });
   }
 
-  const average = avgMatch ? Number(avgMatch[1]) : 0;
-  const total = countMatch ? Number(countMatch[1].replace(/,/g, "")) : reviews.length;
+  const average = avgMatch?.[1] ? Number(avgMatch[1]) : 0;
+  const total = countMatch?.[1] ? Number(countMatch[1].replace(/,/g, "")) : reviews.length;
 
   return {
     average: Number.isFinite(average) && average > 0 ? average : 4.9,
