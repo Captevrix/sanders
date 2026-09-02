@@ -91,12 +91,21 @@ export const submitLead = createServerFn({ method: "POST" })
     message?: string;
     source?: string;
     homeId?: string;
+    smsConsent?: boolean;
+    marketingConsent?: boolean;
+    consentText?: string;
+    consentAt?: string;
+    consentSourceUrl?: string;
   }) => {
     const name = String(data.name ?? "").trim();
     if (!name || name.length > 120) throw new Error("Please enter your name.");
     const phone = String(data.phone ?? "").trim().slice(0, 40);
     const email = String(data.email ?? "").trim().slice(0, 255);
     if (!phone && !email) throw new Error("Add a phone number or email so we can reach you.");
+    if (!data.smsConsent) {
+      throw new Error("Please check the box agreeing to be contacted so we can reply.");
+    }
+    const consentAt = data.consentAt ? new Date(data.consentAt) : new Date();
     return {
       name,
       phone,
@@ -104,6 +113,11 @@ export const submitLead = createServerFn({ method: "POST" })
       message: String(data.message ?? "").trim().slice(0, 2000),
       source: String(data.source ?? "qualify").slice(0, 40),
       homeId: data.homeId ? String(data.homeId).slice(0, 120) : null,
+      smsConsent: true,
+      marketingConsent: Boolean(data.marketingConsent),
+      consentText: String(data.consentText ?? "").slice(0, 2000),
+      consentAt: (Number.isNaN(consentAt.getTime()) ? new Date() : consentAt).toISOString(),
+      consentSourceUrl: String(data.consentSourceUrl ?? "").slice(0, 500),
     };
   })
   .handler(async ({ data }) => {
@@ -115,6 +129,11 @@ export const submitLead = createServerFn({ method: "POST" })
       message: data.message || null,
       source: data.source,
       home_id: data.homeId,
+      sms_consent: data.smsConsent,
+      marketing_consent: data.marketingConsent,
+      consent_text: data.consentText || null,
+      consent_at: data.consentAt,
+      consent_source_url: data.consentSourceUrl || null,
     });
     if (error) throw new Error("We couldn't send that just now. Please call us instead.");
 
@@ -143,6 +162,11 @@ export const submitLead = createServerFn({ method: "POST" })
             source: data.source,
             home_id: data.homeId,
             home_name: homeName,
+            sms_consent: data.smsConsent,
+            marketing_consent: data.marketingConsent,
+            consent_text: data.consentText || null,
+            consent_at: data.consentAt,
+            consent_source_url: data.consentSourceUrl || null,
             submitted_at: new Date().toISOString(),
           }),
         });
@@ -154,3 +178,4 @@ export const submitLead = createServerFn({ method: "POST" })
     }
     return { ok: true };
   });
+
