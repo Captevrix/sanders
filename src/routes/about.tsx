@@ -4,6 +4,7 @@ import { Award, HeartHandshake, MapPin, Truck } from "lucide-react";
 import { homesSearch } from "@/components/site/data";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import awardImg from "@/assets/best-of-2026-award.webp.asset.json";
 import setupImg from "@/assets/setup.jpg";
 
 const TITLE = "About Sanders Manufactured Housing | Pensacola, FL";
@@ -88,6 +89,30 @@ function AboutPage() {
               >
                 Call 1-850-474-0261
               </a>
+            </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-6xl px-4 py-12 sm:px-6">
+          <div className="surface-card grid items-center gap-8 rounded-xl p-8 lg:grid-cols-[auto_1fr]">
+            <img
+              src={awardImg.url}
+              alt="Sanders Manufactured Housing, Best of 2026 Mobile Home Dealer award from BusinessRate, powered by Google Reviews"
+              loading="lazy"
+              width={1227}
+              height={1536}
+              className="mx-auto w-full max-w-[220px] rounded-lg shadow-md"
+            />
+            <div>
+              <p className="label-caps text-accent">Best of 2026</p>
+              <h2 className="mt-2 text-2xl font-extrabold sm:text-3xl">
+                Pensacola's top-rated mobile home dealer
+              </h2>
+              <p className="mt-3 max-w-[60ch] text-[15px] leading-relaxed text-muted-foreground">
+                BusinessRate named Sanders Manufactured Housing a Best of 2026 Award Winner for
+                Mobile Home Dealer in Pensacola, based on Google Reviews from the families we've
+                helped into homes.
+              </p>
             </div>
           </div>
         </section>

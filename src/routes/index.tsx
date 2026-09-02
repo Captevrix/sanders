@@ -12,6 +12,7 @@ import {
   CheckCircle2,
 } from "lucide-react";
 
+import awardImg from "@/assets/best-of-2026-award.webp.asset.json";
 import heroHome from "@/assets/hero-home.jpg";
 import setupImg from "@/assets/setup.jpg";
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
@@ -346,6 +347,37 @@ function Index() {
             >
               Browse all {homes.length} homes with full specs
             </Link>
+          </div>
+        </section>
+
+        {/* Award */}
+        <section className="border-y border-border bg-sand">
+          <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-14 sm:px-6 sm:py-20 lg:grid-cols-[auto_1fr]">
+            <img
+              src={awardImg.url}
+              alt="Sanders Manufactured Housing, Best of 2026 Mobile Home Dealer award from BusinessRate, powered by Google Reviews"
+              loading="lazy"
+              width={1227}
+              height={1536}
+              className="mx-auto w-full max-w-[260px] rounded-xl shadow-lg"
+            />
+            <div>
+              <p className="label-caps text-accent">Award winning</p>
+              <h2 className="mt-2 max-w-[22ch] text-3xl font-extrabold sm:text-4xl">
+                Pensacola's Best of 2026 Mobile Home Dealer
+              </h2>
+              <p className="mt-4 max-w-[62ch] text-[17px] leading-relaxed text-muted-foreground">
+                Sanders Manufactured Housing was named a Best of 2026 Award Winner by BusinessRate,
+                a ranking powered by Google Reviews. Real buyers, real reviews, one local lot that
+                answers the phone.
+              </p>
+              <Link
+                to="/about"
+                className="mt-6 inline-flex h-12 items-center justify-center rounded-md border border-border bg-card px-6 font-semibold hover:bg-secondary"
+              >
+                More about our family business
+              </Link>
+            </div>
           </div>
         </section>
 
