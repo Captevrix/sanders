@@ -46,6 +46,31 @@ function LeadRow({ lead, onChange }: { lead: Lead; onChange: () => void }) {
 
       {lead.message && <p className="mt-3 text-[15px]">{lead.message}</p>}
 
+      <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
+        <span
+          className={`inline-flex items-center rounded-full px-2.5 py-1 font-semibold ${
+            lead.sms_consent
+              ? "bg-secondary text-secondary-foreground"
+              : "bg-destructive/10 text-destructive"
+          }`}
+          title={lead.consent_text ?? undefined}
+        >
+          {lead.sms_consent ? "SMS consent on file" : "No SMS consent"}
+        </span>
+        {lead.marketing_consent && (
+          <span className="inline-flex items-center rounded-full bg-secondary px-2.5 py-1 font-semibold text-secondary-foreground">
+            Marketing opt in
+          </span>
+        )}
+        {lead.consent_at && (
+          <span className="text-muted-foreground">
+            Agreed {new Date(lead.consent_at).toLocaleString("en-US")}
+            {lead.consent_source_url ? ` on ${lead.consent_source_url}` : ""}
+          </span>
+        )}
+      </div>
+
+
       <div className="mt-3 flex flex-wrap gap-2">
         <input
           value={note}

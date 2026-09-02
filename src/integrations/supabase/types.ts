@@ -126,40 +126,55 @@ export type Database = {
       }
       leads: {
         Row: {
+          consent_at: string | null
+          consent_source_url: string | null
+          consent_text: string | null
           created_at: string
           email: string | null
           home_id: string | null
           id: string
           internal_note: string | null
+          marketing_consent: boolean
           message: string | null
           name: string
           phone: string | null
+          sms_consent: boolean
           source: string
           status: string
           updated_at: string
         }
         Insert: {
+          consent_at?: string | null
+          consent_source_url?: string | null
+          consent_text?: string | null
           created_at?: string
           email?: string | null
           home_id?: string | null
           id?: string
           internal_note?: string | null
+          marketing_consent?: boolean
           message?: string | null
           name: string
           phone?: string | null
+          sms_consent?: boolean
           source?: string
           status?: string
           updated_at?: string
         }
         Update: {
+          consent_at?: string | null
+          consent_source_url?: string | null
+          consent_text?: string | null
           created_at?: string
           email?: string | null
           home_id?: string | null
           id?: string
           internal_note?: string | null
+          marketing_consent?: boolean
           message?: string | null
           name?: string
           phone?: string | null
+          sms_consent?: boolean
           source?: string
           status?: string
           updated_at?: string

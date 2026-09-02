@@ -15,7 +15,14 @@ import {
 import awardImg from "@/assets/best-of-2026-award.webp.asset.json";
 import heroHome from "@/assets/hero-home.jpg";
 import setupImg from "@/assets/setup.jpg";
+import {
+  ConsentFields,
+  consentPayload,
+  EMPTY_CONSENT,
+  type ConsentState,
+} from "@/components/site/ConsentFields";
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
+
 import { HomeCard } from "@/components/site/HomeCard";
 import { ReviewsSection, reviewsQuery } from "@/components/site/Reviews";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
@@ -126,12 +133,17 @@ function PaymentEstimator({ homes }: { homes: Home[] }) {
 
 function QualifyForm() {
   const [form, setForm] = useState({ name: "", phone: "", land: "Yes", budget: "Under $800" });
+  const [consent, setConsent] = useState<ConsentState>(EMPTY_CONSENT);
   const [state, setState] = useState<"idle" | "busy" | "done">("idle");
   const [error, setError] = useState("");
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setError("");
+    if (!consent.sms) {
+      setError("Please check the box agreeing to be contacted so we can reply.");
+      return;
+    }
     setState("busy");
     try {
       await submitLead({
@@ -140,6 +152,7 @@ function QualifyForm() {
           phone: form.phone,
           message: `Owns land: ${form.land}. Comfortable payment: ${form.budget}.`,
           source: "qualify",
+          ...consentPayload(consent),
         },
       });
       setState("done");
@@ -148,6 +161,7 @@ function QualifyForm() {
       setError(err instanceof Error ? err.message : "Something went wrong.");
     }
   }
+
 
   if (state === "done") {
     return (
@@ -222,7 +236,9 @@ function QualifyForm() {
           <option>$1,600+</option>
         </select>
       </label>
+      <ConsentFields value={consent} onChange={setConsent} idPrefix="qualify" />
       {error && (
+
         <p role="alert" className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive">
           {error}
         </p>
