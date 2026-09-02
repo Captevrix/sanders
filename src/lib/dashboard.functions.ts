@@ -381,3 +381,66 @@ export const setMemberActive = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+export type InviteResult = {
+  ok: true;
+  email: string;
+  invited: boolean;
+  tempPassword: string | null;
+};
+
+/** Admin-only: invite a new staff member by email, or create the account with a temporary password. */
+export const inviteMember = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: { email: string; displayName: string; role: "admin" | "staff"; siteUrl?: string }) => ({
+    email: String(data.email ?? "").trim().toLowerCase().slice(0, 200),
+    displayName: String(data.displayName ?? "").trim().slice(0, 120),
+    role: data.role === "admin" ? ("admin" as const) : ("staff" as const),
+    siteUrl: String(data.siteUrl ?? "").trim().slice(0, 300),
+  }))
+  .handler(async ({ data, context }): Promise<InviteResult> => {
+    await assertAdmin(context as never);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) throw new Error("Enter a valid email address.");
+
+    const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+    const meta = { display_name: data.displayName || data.email.split("@")[0] || data.email };
+
+    let userId: string | null = null;
+    let invited = false;
+    let tempPassword: string | null = null;
+
+    const redirectTo = data.siteUrl ? `${data.siteUrl}/auth` : undefined;
+    const invite = await supabaseAdmin.auth.admin.inviteUserByEmail(data.email, {
+      data: meta,
+      ...(redirectTo ? { redirectTo } : {}),
+    });
+
+    if (invite.data?.user) {
+      userId = invite.data.user.id;
+      invited = true;
+    } else {
+      // Email delivery may not be configured — fall back to creating the account directly.
+      tempPassword = `Sanders-${Math.random().toString(36).slice(2, 10)}${Math.floor(Math.random() * 90 + 10)}!`;
+      const created = await supabaseAdmin.auth.admin.createUser({
+        email: data.email,
+        password: tempPassword,
+        email_confirm: true,
+        user_metadata: meta,
+      });
+      if (created.error || !created.data.user) {
+        throw new Error(created.error?.message ?? invite.error?.message ?? "Could not create that account.");
+      }
+      userId = created.data.user.id;
+    }
+
+    await supabaseAdmin
+      .from("profiles")
+      .upsert({ id: userId, display_name: meta.display_name, is_active: true }, { onConflict: "id" });
+    await supabaseAdmin.from("user_roles").delete().eq("user_id", userId);
+    const { error: roleError } = await supabaseAdmin
+      .from("user_roles")
+      .insert({ user_id: userId, role: data.role });
+    if (roleError) throw new Error(roleError.message);
+
+    return { ok: true, email: data.email, invited, tempPassword };
+  });

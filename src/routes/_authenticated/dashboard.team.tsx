@@ -4,6 +4,8 @@ import { useEffect, useState } from "react";
 
 import {
   getStaffSession,
+  inviteMember,
+  type InviteResult,
   listTeam,
   setMemberActive,
   setMemberRole,
@@ -86,6 +88,105 @@ function MyProfile() {
   );
 }
 
+function InviteMember() {
+  const queryClient = useQueryClient();
+  const [form, setForm] = useState({ email: "", displayName: "", role: "staff" as "staff" | "admin" });
+  const [result, setResult] = useState<InviteResult | null>(null);
+  const [error, setError] = useState("");
+
+  const invite = useMutation({
+    mutationFn: () =>
+      inviteMember({
+        data: {
+          ...form,
+          siteUrl: typeof window === "undefined" ? "" : window.location.origin,
+        },
+      }),
+    onSuccess: (res) => {
+      setResult(res);
+      setError("");
+      setForm({ email: "", displayName: "", role: "staff" });
+      queryClient.invalidateQueries({ queryKey: ["team"] });
+    },
+    onError: (err: Error) => {
+      setResult(null);
+      setError(err.message);
+    },
+  });
+
+  return (
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        invite.mutate();
+      }}
+      className="surface-card mt-4 grid gap-4 rounded-xl p-6 sm:grid-cols-4"
+    >
+      <label className="block sm:col-span-2">
+        <span className="label-caps text-muted-foreground">Work email</span>
+        <input
+          type="email"
+          required
+          className={field}
+          placeholder="name@sandershousing.com"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+        />
+      </label>
+      <label className="block">
+        <span className="label-caps text-muted-foreground">Name</span>
+        <input
+          className={field}
+          placeholder="Jane Sanders"
+          value={form.displayName}
+          onChange={(e) => setForm({ ...form, displayName: e.target.value })}
+        />
+      </label>
+      <label className="block">
+        <span className="label-caps text-muted-foreground">Access</span>
+        <select
+          className={field}
+          value={form.role}
+          onChange={(e) => setForm({ ...form, role: e.target.value as "staff" | "admin" })}
+        >
+          <option value="staff">Staff</option>
+          <option value="admin">Admin</option>
+        </select>
+      </label>
+      <div className="sm:col-span-4">
+        <button
+          type="submit"
+          disabled={invite.isPending}
+          className="inline-flex h-12 items-center rounded-md bg-accent px-5 font-semibold text-accent-foreground disabled:opacity-60"
+        >
+          {invite.isPending ? "Sending…" : "Send invite"}
+        </button>
+      </div>
+      {error && (
+        <p role="alert" className="text-sm text-destructive sm:col-span-4">
+          {error}
+        </p>
+      )}
+      {result && (
+        <div className="rounded-md bg-secondary p-4 text-sm sm:col-span-4">
+          {result.invited ? (
+            <p>
+              Invite emailed to <strong>{result.email}</strong>. They set their own password from the
+              link, then show up in the list below.
+            </p>
+          ) : (
+            <p>
+              Account created for <strong>{result.email}</strong>. Email delivery is not set up yet, so
+              share this temporary password with them and ask them to change it after signing in:{" "}
+              <code className="rounded bg-background px-2 py-1 font-mono">{result.tempPassword}</code>
+            </p>
+          )}
+        </div>
+      )}
+    </form>
+  );
+}
+
 function Team() {
   const queryClient = useQueryClient();
   const { data: session } = useQuery({ queryKey: ["staff-session"], queryFn: () => getStaffSession() });
@@ -117,7 +218,14 @@ function Team() {
       <MyProfile />
 
       <h2 className="mt-10 text-xl font-extrabold">Staff accounts</h2>
-      {!session?.isAdmin && (
+      {session?.isAdmin ? (
+        <>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Invite a teammate by email, then set what they can reach.
+          </p>
+          <InviteMember />
+        </>
+      ) : (
         <p className="mt-1 text-sm text-muted-foreground">Only admins can change access.</p>
       )}
       {error && (
