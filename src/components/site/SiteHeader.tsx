@@ -15,6 +15,7 @@ const PAGE_LINKS = [
   { label: "Financing", to: "/financing" as const, search: {} },
   { label: "FAQs", to: "/faq" as const, search: {} },
   { label: "Blog", to: "/blog" as const, search: { page: 1, category: "All" } },
+  { label: "Reviews", to: "/reviews" as const, search: {} },
   { label: "About us", to: "/about" as const, search: {} },
 ];
 

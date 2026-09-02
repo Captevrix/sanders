@@ -63,6 +63,9 @@ export function SiteFooter() {
           <Link to="/blog" search={{ page: 1, category: "All" }} className="hover:text-primary">
             Blog
           </Link>
+          <Link to="/reviews" className="hover:text-primary">
+            Reviews
+          </Link>
           <Link to="/about" className="hover:text-primary">
             About us
           </Link>
