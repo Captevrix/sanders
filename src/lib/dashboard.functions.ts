@@ -403,7 +403,7 @@ export const inviteMember = createServerFn({ method: "POST" })
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email)) throw new Error("Enter a valid email address.");
 
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
-    const meta = { display_name: data.displayName || data.email.split("@")[0] };
+    const meta = { display_name: data.displayName || data.email.split("@")[0] || data.email };
 
     let userId: string | null = null;
     let invited = false;
