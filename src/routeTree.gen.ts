@@ -15,7 +15,9 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FinancingRouteImport } from './routes/financing'
+import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReviewsRouteImport } from './routes/reviews'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -57,9 +59,19 @@ const FinancingRoute = FinancingRouteImport.update({
   path: '/financing',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ReviewsRoute = ReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
@@ -129,7 +141,9 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/financing': typeof FinancingRoute
+  '/privacy': typeof PrivacyRoute
   '/reviews': typeof ReviewsRoute
+  '/terms': typeof TermsRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
@@ -148,7 +162,9 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/financing': typeof FinancingRoute
+  '/privacy': typeof PrivacyRoute
   '/reviews': typeof ReviewsRoute
+  '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
@@ -168,7 +184,9 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/financing': typeof FinancingRoute
+  '/privacy': typeof PrivacyRoute
   '/reviews': typeof ReviewsRoute
+  '/terms': typeof TermsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
@@ -189,7 +207,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/faq'
     | '/financing'
+    | '/privacy'
     | '/reviews'
+    | '/terms'
     | '/dashboard'
     | '/blog/$slug'
     | '/flyer/$homeId'
@@ -208,7 +228,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/faq'
     | '/financing'
+    | '/privacy'
     | '/reviews'
+    | '/terms'
     | '/blog/$slug'
     | '/flyer/$homeId'
     | '/homes/$homeId'
@@ -227,7 +249,9 @@ export interface FileRouteTypes {
     | '/auth'
     | '/faq'
     | '/financing'
+    | '/privacy'
     | '/reviews'
+    | '/terms'
     | '/_authenticated/dashboard'
     | '/blog/$slug'
     | '/flyer/$homeId'
@@ -248,7 +272,9 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   FaqRoute: typeof FaqRoute
   FinancingRoute: typeof FinancingRoute
+  PrivacyRoute: typeof PrivacyRoute
   ReviewsRoute: typeof ReviewsRoute
+  TermsRoute: typeof TermsRoute
   BlogSlugRoute: typeof BlogSlugRoute
   FlyerHomeIdRoute: typeof FlyerHomeIdRoute
   HomesHomeIdRoute: typeof HomesHomeIdRoute
@@ -300,11 +326,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinancingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/reviews': {
       id: '/reviews'
       path: '/reviews'
       fullPath: '/reviews'
       preLoaderRoute: typeof ReviewsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/dashboard': {
@@ -429,7 +469,9 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   FaqRoute: FaqRoute,
   FinancingRoute: FinancingRoute,
+  PrivacyRoute: PrivacyRoute,
   ReviewsRoute: ReviewsRoute,
+  TermsRoute: TermsRoute,
   BlogSlugRoute: BlogSlugRoute,
   FlyerHomeIdRoute: FlyerHomeIdRoute,
   HomesHomeIdRoute: HomesHomeIdRoute,
