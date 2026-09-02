@@ -73,13 +73,26 @@ export function SiteFooter() {
           <Link to="/about" className="hover:text-primary">
             About us
           </Link>
+          <p className="label-caps mt-4 text-muted-foreground">Legal</p>
+          <Link to="/privacy" className="hover:text-primary">
+            Privacy policy
+          </Link>
+          <Link to="/terms" className="hover:text-primary">
+            Terms of use
+          </Link>
         </nav>
       </div>
       <div className="border-t border-border">
-        <p className="mx-auto max-w-6xl px-4 py-5 text-sm text-muted-foreground sm:px-6">
-          Equal Housing Opportunity. Payment estimates are illustrative, not an offer of credit.
-        </p>
+        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-3 px-4 py-5 sm:px-6">
+          <p className="text-sm text-muted-foreground">
+            Equal Housing Opportunity. Payment estimates are illustrative, not an offer of credit.
+          </p>
+          <p className="text-sm text-muted-foreground">
+            © {new Date().getFullYear()} Sanders Manufactured Housing, Inc.
+          </p>
+        </div>
       </div>
+
     </footer>
   );
 }
