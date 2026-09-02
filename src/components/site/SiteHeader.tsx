@@ -81,7 +81,7 @@ export function SiteHeader() {
             <NavigationMenuList>
               <NavigationMenuItem>
                 <NavigationMenuTrigger
-                  className={`h-auto bg-transparent px-0 py-0 text-[15px] font-medium hover:bg-transparent hover:text-primary focus:bg-transparent data-[state=open]:bg-transparent data-[state=open]:hover:bg-transparent ${
+                  className={`h-auto bg-transparent px-0 py-0 text-[15px] font-medium hover:bg-transparent hover:text-primary focus:bg-transparent focus:text-foreground data-[state=open]:bg-transparent data-[state=open]:hover:bg-transparent data-[state=open]:text-primary data-[state=open]:focus:text-primary ${
                     aboutActive ? "text-primary" : "text-foreground"
                   }`}
                 >
