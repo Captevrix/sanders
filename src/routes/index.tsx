@@ -17,6 +17,7 @@ import heroHome from "@/assets/hero-home.jpg";
 import setupImg from "@/assets/setup.jpg";
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
+import { ReviewsSection, reviewsQuery } from "@/components/site/Reviews";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { SiteHeader } from "@/components/site/SiteHeader";
 import { submitLead } from "@/lib/homes.functions";
@@ -27,7 +28,12 @@ const DESCRIPTION =
   "Gulf Coast manufactured homes with the monthly payment shown up front. Browse single and multi section homes, check what you qualify for, and get delivery and setup handled.";
 
 export const Route = createFileRoute("/")({
-  loader: ({ context }) => context.queryClient.ensureQueryData(homesQuery),
+  loader: async ({ context }) => {
+    await Promise.all([
+      context.queryClient.ensureQueryData(homesQuery),
+      context.queryClient.ensureQueryData(reviewsQuery),
+    ]);
+  },
   head: () => ({
     meta: [
       { title: TITLE },
@@ -228,6 +234,7 @@ function QualifyForm() {
 
 function Index() {
   const { data: homes } = useSuspenseQuery(homesQuery);
+  const { data: reviews } = useSuspenseQuery(reviewsQuery);
   const priced = homes.filter((h) => typeof h.price === "number");
   const featured = homes.slice(0, 6);
 
@@ -349,6 +356,8 @@ function Index() {
             </Link>
           </div>
         </section>
+
+        <ReviewsSection data={reviews} />
 
         {/* Award */}
         <section className="border-y border-border bg-sand">

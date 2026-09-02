@@ -15,6 +15,7 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as FaqRouteImport } from './routes/faq'
 import { Route as FinancingRouteImport } from './routes/financing'
+import { Route as ReviewsRouteImport } from './routes/reviews'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
@@ -54,6 +55,11 @@ const FaqRoute = FaqRouteImport.update({
 const FinancingRoute = FinancingRouteImport.update({
   id: '/financing',
   path: '/financing',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ReviewsRoute = ReviewsRouteImport.update({
+  id: '/reviews',
+  path: '/reviews',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
@@ -123,6 +129,7 @@ export interface FileRoutesByFullPath {
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/financing': typeof FinancingRoute
+  '/reviews': typeof ReviewsRoute
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
@@ -141,6 +148,7 @@ export interface FileRoutesByTo {
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/financing': typeof FinancingRoute
+  '/reviews': typeof ReviewsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
@@ -160,6 +168,7 @@ export interface FileRoutesById {
   '/auth': typeof AuthRoute
   '/faq': typeof FaqRoute
   '/financing': typeof FinancingRoute
+  '/reviews': typeof ReviewsRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
@@ -180,6 +189,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/faq'
     | '/financing'
+    | '/reviews'
     | '/dashboard'
     | '/blog/$slug'
     | '/flyer/$homeId'
@@ -198,6 +208,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/faq'
     | '/financing'
+    | '/reviews'
     | '/blog/$slug'
     | '/flyer/$homeId'
     | '/homes/$homeId'
@@ -216,6 +227,7 @@ export interface FileRouteTypes {
     | '/auth'
     | '/faq'
     | '/financing'
+    | '/reviews'
     | '/_authenticated/dashboard'
     | '/blog/$slug'
     | '/flyer/$homeId'
@@ -236,6 +248,7 @@ export interface RootRouteChildren {
   AuthRoute: typeof AuthRoute
   FaqRoute: typeof FaqRoute
   FinancingRoute: typeof FinancingRoute
+  ReviewsRoute: typeof ReviewsRoute
   BlogSlugRoute: typeof BlogSlugRoute
   FlyerHomeIdRoute: typeof FlyerHomeIdRoute
   HomesHomeIdRoute: typeof HomesHomeIdRoute
@@ -285,6 +298,13 @@ declare module '@tanstack/react-router' {
       path: '/financing'
       fullPath: '/financing'
       preLoaderRoute: typeof FinancingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reviews': {
+      id: '/reviews'
+      path: '/reviews'
+      fullPath: '/reviews'
+      preLoaderRoute: typeof ReviewsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_authenticated/dashboard': {
@@ -409,6 +429,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRoute,
   FaqRoute: FaqRoute,
   FinancingRoute: FinancingRoute,
+  ReviewsRoute: ReviewsRoute,
   BlogSlugRoute: BlogSlugRoute,
   FlyerHomeIdRoute: FlyerHomeIdRoute,
   HomesHomeIdRoute: HomesHomeIdRoute,
