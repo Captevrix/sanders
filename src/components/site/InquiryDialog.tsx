@@ -12,7 +12,14 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
+import {
+  ConsentFields,
+  consentPayload,
+  EMPTY_CONSENT,
+  type ConsentState,
+} from "./ConsentFields";
 import type { Home } from "./data";
+
 
 export function InquiryDialog({
   home,
@@ -30,6 +37,7 @@ export function InquiryDialog({
   const [message, setMessage] = useState(
     `I'd like to know more about ${home.name} (${home.dimensions}, ${home.beds} bed / ${home.baths} bath).`,
   );
+  const [consent, setConsent] = useState<ConsentState>(EMPTY_CONSENT);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [sent, setSent] = useState(false);
@@ -46,6 +54,10 @@ export function InquiryDialog({
       setError("Add a phone number or email so we can reach you.");
       return;
     }
+    if (!consent.sms) {
+      setError("Please check the box agreeing to be contacted so we can reply.");
+      return;
+    }
     setBusy(true);
     try {
       await send({
@@ -56,9 +68,11 @@ export function InquiryDialog({
           message,
           source: "inquiry",
           homeId: home.id,
+          ...consentPayload(consent),
         },
       });
       setSent(true);
+
     } catch (err) {
       setError(err instanceof Error ? err.message : "Something went wrong. Please call us instead.");
     } finally {
