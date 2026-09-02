@@ -18,7 +18,7 @@ export function SiteFooter() {
             width={500}
             height={261}
             loading="lazy"
-            className="h-11 w-auto"
+            className="h-14 w-auto sm:h-16"
           />
           <p className="mt-3 text-[15px] text-muted-foreground">
             10300 Pensacola Blvd, Pensacola, FL · Mon–Sat 9–6
