@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import logo from "@/assets/sanders-logo.png.asset.json";
 import { homesSearch } from "./data";
+import { SocialLinks } from "./SocialLinks";
+
 
 const HOME_LINKS = [
   { label: "Our homes", search: homesSearch() },
@@ -55,7 +57,9 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <SocialLinks size="sm" className="hidden xl:flex" />
           <a
+
             href="tel:18504740261"
             className="inline-flex h-11 items-center gap-2 rounded-md bg-primary px-4 font-semibold text-primary-foreground hover:opacity-90"
           >
