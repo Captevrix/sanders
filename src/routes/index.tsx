@@ -99,11 +99,19 @@ function PaymentEstimator({ homes }: { homes: Home[] }) {
       <div className="mt-5 rounded-lg bg-sand px-4 py-3">
         <p className="text-[15px]">
           That's roughly a{" "}
-          <strong className="font-display text-lg">{money(affordable)}</strong> home, and{" "}
-          <strong>{matches}</strong> of our {priced.length} priced homes fit it today. Most
-          homes on the lot are quoted with your options, so call and we'll price it against this
-          number.
+          <strong className="font-display text-lg">{money(affordable)}</strong> home.{" "}
+          <strong>{matches}</strong> of our {priced.length} priced{" "}
+          {matches === 1 ? "home fits" : "homes fit"} it today, and {unpriced} more{" "}
+          {unpriced === 1 ? "is" : "are"} quoted with your options, so call and we'll price{" "}
+          {unpriced === 1 ? "it" : "them"} against this number.
         </p>
+        <Link
+          to="/homes"
+          search={homesSearch({ maxPayment: budget })}
+          className="mt-2 inline-flex items-center gap-1 text-[14px] font-semibold text-primary underline underline-offset-4 hover:text-foreground"
+        >
+          See the homes that fit this budget
+        </Link>
       </div>
 
       <a
@@ -237,7 +245,6 @@ function QualifyForm() {
 function Index() {
   const { data: homes } = useSuspenseQuery(homesQuery);
   const { data: reviews } = useSuspenseQuery(reviewsQuery);
-  const priced = homes.filter((h) => typeof h.price === "number");
   const featured = homes.slice(0, 6);
 
   return (
