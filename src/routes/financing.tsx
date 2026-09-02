@@ -1,3 +1,5 @@
+import { useQuery } from "@tanstack/react-query";
+import { RatingStrip, reviewsQuery } from "@/components/site/Reviews";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { BadgeCheck, Landmark, PiggyBank, ShieldCheck } from "lucide-react";
@@ -143,6 +145,12 @@ function Calculator() {
   );
 }
 
+function TrustStrip() {
+  const { data } = useQuery(reviewsQuery);
+  if (!data) return null;
+  return <RatingStrip data={data} className="mt-4" />;
+}
+
 function FinancingPage() {
   return (
     <div className="min-h-screen pb-24 lg:pb-0">
@@ -151,6 +159,7 @@ function FinancingPage() {
         <section className="border-b border-border bg-sand">
           <div className="mx-auto max-w-6xl px-4 py-12 sm:px-6 sm:py-16">
             <p className="label-caps text-muted-foreground">Financing</p>
+            <TrustStrip />
             <h1 className="mt-2 max-w-[22ch] text-3xl font-extrabold sm:text-5xl">
               Start with the payment, not the sticker
             </h1>

@@ -1,3 +1,4 @@
+import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useState } from "react";
 import { Bath, BedDouble, Camera, CheckCircle2, MapPin, Phone, Ruler, Square } from "lucide-react";
@@ -5,6 +6,7 @@ import { Bath, BedDouble, Camera, CheckCircle2, MapPin, Phone, Ruler, Square } f
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
 import { InquiryDialog } from "@/components/site/InquiryDialog";
+import { RatingStrip, reviewsQuery } from "@/components/site/Reviews";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
 import { ShareActions } from "@/components/site/ShareActions";
 import { SiteHeader } from "@/components/site/SiteHeader";
@@ -307,6 +309,7 @@ function HomeDetail() {
             >
               See if you qualify: no credit hit
             </Link>
+            <TrustStrip />
             <InquiryDialog
               home={home}
               label="Ask about this home"
@@ -343,4 +346,10 @@ function HomeDetail() {
       <MobileCallBar />
     </div>
   );
+}
+
+function TrustStrip() {
+  const { data } = useQuery(reviewsQuery);
+  if (!data) return null;
+  return <RatingStrip data={data} className="mt-4" />;
 }
