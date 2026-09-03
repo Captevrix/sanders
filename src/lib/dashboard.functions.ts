@@ -5,7 +5,7 @@ import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
 import { signPhotoPaths } from "./homes.functions";
 
 const HOME_COLUMNS =
-  "id,name,builder,property_id,address,date_added,cover_image,photo_count,statuses,section_type,beds,baths,sqft,dimensions,wind_zone,features,price,description,published";
+  "id,name,builder,property_id,address,date_added,cover_image,photo_count,statuses,section_type,beds,baths,sqft,dimensions,wind_zone,features,price,description,published,virtual_tour_url,floor_plan_url";
 
 export type StaffSession = {
   userId: string;
@@ -142,8 +142,11 @@ export type HomeInput = {
   price: number | null;
   description: string;
   published: boolean;
+  virtual_tour_url: string | null;
+  floor_plan_url: string | null;
   isNew: boolean;
 };
+
 
 function slugify(value: string) {
   return value
@@ -176,7 +179,10 @@ export const saveHome = createServerFn({ method: "POST" })
       sqft: Number(data.sqft) || 0,
       photo_count: Number(data.photo_count) || 0,
       price: data.price == null || Number.isNaN(Number(data.price)) ? null : Number(data.price),
+      virtual_tour_url: String(data.virtual_tour_url ?? "").trim().slice(0, 800) || null,
+      floor_plan_url: String(data.floor_plan_url ?? "").trim().slice(0, 800) || null,
     };
+
   })
   .handler(async ({ data, context }) => {
     const { isNew, ...row } = data;
@@ -261,7 +267,28 @@ export const deleteHomePhoto = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export const deleteAllHomePhotos = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((data: { homeId: string }) => ({ homeId: String(data.homeId) }))
+  .handler(async ({ data, context }) => {
+    const { data: rows } = await context.supabase
+      .from("home_photos")
+      .select("storage_path")
+      .eq("home_id", data.homeId);
+    const { error } = await context.supabase.from("home_photos").delete().eq("home_id", data.homeId);
+    if (error) throw new Error(error.message);
+    const paths = (rows ?? [])
+      .map((r: { storage_path: string | null }) => r.storage_path)
+      .filter((p: string | null): p is string => Boolean(p));
+    if (paths.length > 0) {
+      const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+      await supabaseAdmin.storage.from("home-photos").remove(paths);
+    }
+    return { ok: true, removed: paths.length };
+  });
+
 export const reorderHomePhotos = createServerFn({ method: "POST" })
+
   .middleware([requireSupabaseAuth])
   .inputValidator((data: { ids: string[] }) => ({ ids: (data.ids ?? []).map(String) }))
   .handler(async ({ data, context }) => {

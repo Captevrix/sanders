@@ -5,7 +5,7 @@ import { mapHomeRow, type Home, type HomeRow } from "@/components/site/data";
 import type { Database } from "@/integrations/supabase/types";
 
 const HOME_COLUMNS =
-  "id,name,builder,property_id,address,date_added,cover_image,photo_count,statuses,section_type,beds,baths,sqft,dimensions,wind_zone,features,price,description,published";
+  "id,name,builder,property_id,address,date_added,cover_image,photo_count,statuses,section_type,beds,baths,sqft,dimensions,wind_zone,features,price,description,published,virtual_tour_url,floor_plan_url";
 
 function publicClient() {
   const url = process.env["SUPABASE_URL"]!;
@@ -55,7 +55,10 @@ export const listPublicHomes = createServerFn({ method: "GET" }).handler(async (
     if (url) byHome.set(t.homeId, [...(byHome.get(t.homeId) ?? []), url]);
   });
 
-  return ((homes ?? []) as HomeRow[]).map((row) => mapHomeRow(row, byHome.get(row.id) ?? []));
+  const mapped = ((homes ?? []) as HomeRow[]).map((row) => mapHomeRow(row, byHome.get(row.id) ?? []));
+  // Homes physically on the lot lead the list, newest first inside each group.
+  return mapped.sort((a, b) => Number(b.statuses.includes("On Site")) - Number(a.statuses.includes("On Site")));
+
 });
 
 export const getPublicHome = createServerFn({ method: "GET" })

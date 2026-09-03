@@ -52,7 +52,12 @@ export type Home = {
   published: boolean;
   /** Extra gallery photos (signed URLs) uploaded by staff. */
   photos: string[];
+  /** Optional 360/Matterport tour embed URL. */
+  virtualTourUrl: string;
+  /** Optional floor plan drawing (image URL). */
+  floorPlanUrl: string;
 };
+
 
 export type HomeRow = {
   id: string;
@@ -74,7 +79,10 @@ export type HomeRow = {
   price: number | null;
   description: string;
   published: boolean;
+  virtual_tour_url?: string | null;
+  floor_plan_url?: string | null;
 };
+
 
 const DATE_FMT = new Intl.DateTimeFormat("en-US", {
   month: "long",
@@ -111,6 +119,9 @@ export function mapHomeRow(row: HomeRow, photos: string[] = []): Home {
     description: row.description,
     published: row.published,
     photos,
+    virtualTourUrl: row.virtual_tour_url ?? "",
+    floorPlanUrl: row.floor_plan_url ?? "",
+
   };
 }
 
@@ -192,3 +203,12 @@ export const homesSearch = (patch: Partial<HomesSearch> = {}): HomesSearch => ({
   ...HOMES_SEARCH_DEFAULTS,
   ...patch,
 });
+
+/** The photo order Sanders wants on every listing gallery. */
+export const PHOTO_ORDER_HINT =
+  "Living room, kitchen, master bedroom and bath, additional bedrooms, additional baths, laundry, then exterior.";
+
+/** Legacy WordPress slugs that changed when a home was renamed. */
+export const LEGACY_SLUGS: Record<string, string> = {
+  delight: "dogwood",
+};

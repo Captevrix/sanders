@@ -243,12 +243,20 @@ function HomeDetail() {
                   </dd>
                 </div>
               </dl>
-              <div className="mt-4 flex aspect-[16/9] items-center justify-center rounded-lg border border-dashed border-border bg-sand text-center">
-                <p className="max-w-[36ch] px-6 text-[15px] text-muted-foreground">
-                  {home.dimensions} floor plan drawing, downloadable PDF slots in here on the
-                  production build.
-                </p>
-              </div>
+              {home.floorPlanUrl ? (
+                <img
+                  src={home.floorPlanUrl}
+                  alt={`${home.name} floor plan, ${home.dimensions}`}
+                  loading="lazy"
+                  className="mt-4 w-full rounded-lg border border-border bg-white object-contain"
+                />
+              ) : (
+                <div className="mt-4 flex aspect-[16/9] items-center justify-center rounded-lg border border-dashed border-border bg-sand text-center">
+                  <p className="max-w-[36ch] px-6 text-[15px] text-muted-foreground">
+                    Call us for the {home.dimensions} floor plan, we'll send it over the same day.
+                  </p>
+                </div>
+              )}
               <a
                 href="tel:18504740261"
                 className="mt-4 inline-flex h-11 items-center justify-center rounded-md border border-border px-4 font-semibold hover:bg-secondary"
@@ -256,6 +264,35 @@ function HomeDetail() {
                 Request the floor plan
               </a>
             </div>
+
+            {home.virtualTourUrl && (
+              <>
+                <h2 className="mt-10 text-2xl font-extrabold">Take the 3D tour</h2>
+                <p className="mt-2 max-w-[62ch] text-[15px] text-muted-foreground">
+                  Walk every room from your phone or desktop, then come see it in person on our
+                  Pensacola lot.
+                </p>
+                <div className="mt-3 aspect-video w-full overflow-hidden rounded-xl border border-border bg-sand">
+                  <iframe
+                    src={home.virtualTourUrl}
+                    title={`${home.name} virtual tour`}
+                    loading="lazy"
+                    allowFullScreen
+                    allow="accelerometer; gyroscope; fullscreen; vr; xr-spatial-tracking"
+                    className="size-full"
+                  />
+                </div>
+                <a
+                  href={home.virtualTourUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-3 inline-flex h-11 items-center justify-center rounded-md border border-border px-4 font-semibold hover:bg-secondary"
+                >
+                  Open the tour full screen
+                </a>
+              </>
+            )}
+
 
             <div className="mt-8">
               <ShareActions home={home} />
