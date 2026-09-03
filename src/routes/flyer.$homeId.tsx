@@ -4,6 +4,7 @@ import { ArrowLeft, Printer } from "lucide-react";
 
 import logo from "@/assets/sanders-logo.png.asset.json";
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
+import { HomeDescription } from "@/components/site/HomeDescription";
 import { homeUrl } from "@/components/site/ShareActions";
 import { getPublicHome } from "@/lib/homes.functions";
 
