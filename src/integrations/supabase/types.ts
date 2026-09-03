@@ -60,6 +60,7 @@ export type Database = {
           created_by: string | null
           date_added: string
           description: string
+          description_original: string | null
           dimensions: string
           features: string[]
           floor_plan_url: string | null
@@ -86,6 +87,7 @@ export type Database = {
           created_by?: string | null
           date_added?: string
           description?: string
+          description_original?: string | null
           dimensions?: string
           features?: string[]
           floor_plan_url?: string | null
@@ -112,6 +114,7 @@ export type Database = {
           created_by?: string | null
           date_added?: string
           description?: string
+          description_original?: string | null
           dimensions?: string
           features?: string[]
           floor_plan_url?: string | null
