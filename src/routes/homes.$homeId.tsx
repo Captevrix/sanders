@@ -298,10 +298,8 @@ function HomeDetail() {
               <ShareActions home={home} />
             </div>
 
-            <h2 className="mt-10 text-2xl font-extrabold">Description</h2>
-            <p className="mt-3 max-w-[68ch] text-[17px] leading-relaxed text-muted-foreground">
-              {home.description}
-            </p>
+            <h2 className="mt-10 text-2xl font-extrabold">About this home</h2>
+            <HomeDescription text={home.description} collapsible className="mt-3" />
 
             <div className="mt-6 rounded-xl bg-sand p-5">
               <p className="font-display text-lg font-extrabold">The Sanders guarantee</p>
