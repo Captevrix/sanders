@@ -116,6 +116,8 @@ function ListingEditor() {
       virtual_tour_url: home.virtualTourUrl || null,
       floor_plan_url: home.floorPlanUrl || null,
       isNew: false,
+    });
+
 
   }, [existing.data]);
 
