@@ -33,15 +33,15 @@ function parseDescription(raw: string): Block[] {
     if (heading) {
       flushList();
       flushPara();
-      blocks.push({ kind: "heading", text: heading[1].replace(/[*_]/g, "").trim() });
+      blocks.push({ kind: "heading", text: (heading[1] ?? "").replace(/[*_]/g, "").trim() });
       continue;
     }
     const bullet = /^[-*\u2022]\s+(.*)$/.exec(trimmed);
     if (bullet) {
       flushPara();
-      const body = bullet[1];
+      const body = bullet[1] ?? "";
       const labelled = /^\*\*(.+?):?\*\*:?\s*(.*)$/.exec(body);
-      if (labelled) list.push({ label: labelled[1].trim(), text: labelled[2].trim() });
+      if (labelled) list.push({ label: (labelled[1] ?? "").trim(), text: (labelled[2] ?? "").trim() });
       else list.push({ text: body.replace(/\*\*/g, "").trim() });
       continue;
     }
