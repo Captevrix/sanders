@@ -360,8 +360,15 @@ function ListingEditor() {
 
         <section className="surface-card rounded-xl p-6">
           <Field label="Description">
+            <p className="mt-1 text-[13px] text-muted-foreground">
+              Keep the house style: a short lead paragraph, then{" "}
+              <code className="rounded bg-secondary px-1">## Quick overview</code>,{" "}
+              <code className="rounded bg-secondary px-1">## Highlights</code> and{" "}
+              <code className="rounded bg-secondary px-1">## Why buyers pick it</code>. Bullets look
+              like <code className="rounded bg-secondary px-1">- **Kitchen:** text</code>.
+            </p>
             <textarea
-              rows={6}
+              rows={14}
               className="mt-1.5 w-full rounded-md border border-input bg-background p-3 text-[16px]"
               value={form.description}
               onChange={(e) => patch({ description: e.target.value })}

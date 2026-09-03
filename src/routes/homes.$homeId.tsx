@@ -5,6 +5,7 @@ import { Bath, BedDouble, Camera, CheckCircle2, MapPin, Phone, Ruler, Square } f
 
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
 import { HomeCard } from "@/components/site/HomeCard";
+import { HomeDescription } from "@/components/site/HomeDescription";
 import { InquiryDialog } from "@/components/site/InquiryDialog";
 import { RatingStrip, reviewsQuery } from "@/components/site/Reviews";
 import { MobileCallBar, SiteFooter } from "@/components/site/SiteFooter";
@@ -298,10 +299,8 @@ function HomeDetail() {
               <ShareActions home={home} />
             </div>
 
-            <h2 className="mt-10 text-2xl font-extrabold">Description</h2>
-            <p className="mt-3 max-w-[68ch] text-[17px] leading-relaxed text-muted-foreground">
-              {home.description}
-            </p>
+            <h2 className="mt-10 text-2xl font-extrabold">About this home</h2>
+            <HomeDescription text={home.description} collapsible className="mt-3" />
 
             <div className="mt-6 rounded-xl bg-sand p-5">
               <p className="font-display text-lg font-extrabold">The Sanders guarantee</p>

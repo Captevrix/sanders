@@ -4,6 +4,7 @@ import { ArrowLeft, Printer } from "lucide-react";
 
 import logo from "@/assets/sanders-logo.png.asset.json";
 import { estimateMonthly, homesSearch, money, type Home } from "@/components/site/data";
+import { HomeDescription } from "@/components/site/HomeDescription";
 import { homeUrl } from "@/components/site/ShareActions";
 import { getPublicHome } from "@/lib/homes.functions";
 
@@ -208,9 +209,10 @@ function FlyerPage() {
             <h2 className="font-display text-lg font-extrabold uppercase tracking-wide">
               About this home
             </h2>
-            <p className="mt-2 line-clamp-6 text-[13px] leading-relaxed text-muted-foreground">
-              {home.description}
-            </p>
+            <HomeDescription
+              text={home.description}
+              className="mt-2 max-w-none text-[13px] leading-relaxed"
+            />
           </section>
         )}
 
