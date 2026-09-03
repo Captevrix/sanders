@@ -62,6 +62,7 @@ export type Database = {
           description: string
           dimensions: string
           features: string[]
+          floor_plan_url: string | null
           id: string
           name: string
           photo_count: number
@@ -72,6 +73,7 @@ export type Database = {
           sqft: number
           statuses: string[]
           updated_at: string
+          virtual_tour_url: string | null
           wind_zone: string
         }
         Insert: {
@@ -86,6 +88,7 @@ export type Database = {
           description?: string
           dimensions?: string
           features?: string[]
+          floor_plan_url?: string | null
           id: string
           name: string
           photo_count?: number
@@ -96,6 +99,7 @@ export type Database = {
           sqft?: number
           statuses?: string[]
           updated_at?: string
+          virtual_tour_url?: string | null
           wind_zone?: string
         }
         Update: {
@@ -110,6 +114,7 @@ export type Database = {
           description?: string
           dimensions?: string
           features?: string[]
+          floor_plan_url?: string | null
           id?: string
           name?: string
           photo_count?: number
@@ -120,6 +125,7 @@ export type Database = {
           sqft?: number
           statuses?: string[]
           updated_at?: string
+          virtual_tour_url?: string | null
           wind_zone?: string
         }
         Relationships: []

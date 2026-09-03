@@ -6,6 +6,7 @@ import { GripVertical, Trash2, Upload } from "lucide-react";
 import {
   FEATURE_LIBRARY,
   LOT,
+  PHOTO_ORDER_HINT,
   SECTION_TYPES,
   STATUSES,
   STOCK_IMAGES,
@@ -14,6 +15,7 @@ import {
 } from "@/components/site/data";
 import {
   addHomePhoto,
+  deleteAllHomePhotos,
   deleteHomePhoto,
   getStaffHome,
   reorderHomePhotos,
@@ -46,8 +48,11 @@ const EMPTY: HomeInput = {
   price: null,
   description: "",
   published: false,
+  virtual_tour_url: null,
+  floor_plan_url: null,
   isNew: true,
 };
+
 
 const field = "mt-1.5 h-12 w-full rounded-md border border-input bg-background px-3 text-[16px]";
 
@@ -75,6 +80,8 @@ function ListingEditor() {
   const [error, setError] = useState("");
   const [saved, setSaved] = useState(false);
   const [uploading, setUploading] = useState(false);
+  const [replacing, setReplacing] = useState(false);
+
   const [dragId, setDragId] = useState<string | null>(null);
 
   const existing = useQuery({
@@ -106,8 +113,12 @@ function ListingEditor() {
       price: home.price ?? null,
       description: home.description,
       published: home.published,
+      virtual_tour_url: home.virtualTourUrl || null,
+      floor_plan_url: home.floorPlanUrl || null,
       isNew: false,
     });
+
+
   }, [existing.data]);
 
   const patch = (p: Partial<HomeInput>) => setForm((f) => ({ ...f, ...p }));
@@ -136,7 +147,26 @@ function ListingEditor() {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["staff-home", homeId] }),
   });
 
+  const removeAll = useMutation({
+    mutationFn: () => deleteAllHomePhotos({ data: { homeId } }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["staff-home", homeId] }),
+  });
+
+  async function onReplaceAll(files: FileList | null) {
+    if (!files?.length || isNew) return;
+    setReplacing(true);
+    try {
+      await deleteAllHomePhotos({ data: { homeId } });
+      await onUpload(files);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Replace failed.");
+    } finally {
+      setReplacing(false);
+    }
+  }
+
   async function onUpload(files: FileList | null) {
+
     if (!files?.length || isNew) return;
     setUploading(true);
     setError("");
@@ -265,6 +295,23 @@ function ListingEditor() {
               ))}
             </select>
           </Field>
+          <Field label="Virtual tour link (360 or Matterport)">
+            <input
+              className={field}
+              placeholder="https://momento360.com/e/uc/..."
+              value={form.virtual_tour_url ?? ""}
+              onChange={(e) => patch({ virtual_tour_url: e.target.value || null })}
+            />
+          </Field>
+          <Field label="Floor plan image link">
+            <input
+              className={field}
+              placeholder="https://..."
+              value={form.floor_plan_url ?? ""}
+              onChange={(e) => patch({ floor_plan_url: e.target.value || null })}
+            />
+          </Field>
+
         </section>
 
         <section className="surface-card rounded-xl p-6">
@@ -365,20 +412,51 @@ function ListingEditor() {
             ? "Save the listing first, then upload photos."
             : "Drag to reorder, the first photo is the cover image on the website."}
         </p>
+        {!isNew && (
+          <p className="mt-1 text-sm text-muted-foreground">
+            Preferred order: {PHOTO_ORDER_HINT}
+          </p>
+        )}
 
         {!isNew && (
           <>
-            <label className="mt-4 inline-flex h-12 cursor-pointer items-center gap-2 rounded-md border border-border px-4 font-semibold hover:bg-secondary">
-              <Upload className="size-4" aria-hidden />
-              {uploading ? "Uploading…" : "Upload photos"}
-              <input
-                type="file"
-                accept="image/*"
-                multiple
-                className="sr-only"
-                onChange={(e) => onUpload(e.target.files)}
-              />
-            </label>
+            <div className="mt-4 flex flex-wrap items-center gap-3">
+              <label className="inline-flex h-12 cursor-pointer items-center gap-2 rounded-md border border-border px-4 font-semibold hover:bg-secondary">
+                <Upload className="size-4" aria-hidden />
+                {uploading ? "Uploading…" : "Upload photos"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="sr-only"
+                  onChange={(e) => onUpload(e.target.files)}
+                />
+              </label>
+              <label className="inline-flex h-12 cursor-pointer items-center gap-2 rounded-md border border-accent px-4 font-semibold text-accent hover:bg-accent/10">
+                <Upload className="size-4" aria-hidden />
+                {replacing ? "Replacing…" : "Replace all photos"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="sr-only"
+                  onChange={(e) => onReplaceAll(e.target.files)}
+                />
+              </label>
+              {photos.length > 0 && (
+                <button
+                  type="button"
+                  className="inline-flex h-12 items-center gap-2 rounded-md border border-border px-4 font-semibold text-muted-foreground hover:bg-secondary"
+                  onClick={() => {
+                    if (confirm(`Delete all ${photos.length} photos for this home?`)) removeAll.mutate();
+                  }}
+                >
+                  <Trash2 className="size-4" aria-hidden />
+                  Delete all
+                </button>
+              )}
+            </div>
+
 
             <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
               {photos.map((p, i) => (

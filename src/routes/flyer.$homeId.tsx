@@ -189,6 +189,20 @@ function FlyerPage() {
           </section>
         )}
 
+        {home.floorPlanUrl && (
+          <section className="mt-6">
+            <h2 className="font-display text-lg font-extrabold uppercase tracking-wide">
+              Floor plan
+            </h2>
+            <img
+              src={home.floorPlanUrl}
+              alt={`${home.name} floor plan`}
+              className="mt-2 max-h-[420px] w-full rounded-md border border-border object-contain"
+            />
+          </section>
+        )}
+
+
         {home.description && (
           <section className="mt-6">
             <h2 className="font-display text-lg font-extrabold uppercase tracking-wide">
