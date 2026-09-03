@@ -22,6 +22,7 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as FlyerHomeIdRouteImport } from './routes/flyer.$homeId'
+import { Route as HomeSlugRouteImport } from './routes/home.$slug'
 import { Route as HomesIndexRouteImport } from './routes/homes.index'
 import { Route as HomesHomeIdRouteImport } from './routes/homes.$homeId'
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
@@ -94,6 +95,11 @@ const FlyerHomeIdRoute = FlyerHomeIdRouteImport.update({
   path: '/flyer/$homeId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HomeSlugRoute = HomeSlugRouteImport.update({
+  id: '/home/$slug',
+  path: '/home/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HomesIndexRoute = HomesIndexRouteImport.update({
   id: '/homes/',
   path: '/homes/',
@@ -147,6 +153,7 @@ export interface FileRoutesByFullPath {
   '/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
+  '/home/$slug': typeof HomeSlugRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/blog/': typeof BlogIndexRoute
   '/homes/': typeof HomesIndexRoute
@@ -167,6 +174,7 @@ export interface FileRoutesByTo {
   '/terms': typeof TermsRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
+  '/home/$slug': typeof HomeSlugRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/blog': typeof BlogIndexRoute
   '/homes': typeof HomesIndexRoute
@@ -190,6 +198,7 @@ export interface FileRoutesById {
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRouteWithChildren
   '/blog/$slug': typeof BlogSlugRoute
   '/flyer/$homeId': typeof FlyerHomeIdRoute
+  '/home/$slug': typeof HomeSlugRoute
   '/homes/$homeId': typeof HomesHomeIdRoute
   '/blog/': typeof BlogIndexRoute
   '/homes/': typeof HomesIndexRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/dashboard'
     | '/blog/$slug'
     | '/flyer/$homeId'
+    | '/home/$slug'
     | '/homes/$homeId'
     | '/blog/'
     | '/homes/'
@@ -233,6 +243,7 @@ export interface FileRouteTypes {
     | '/terms'
     | '/blog/$slug'
     | '/flyer/$homeId'
+    | '/home/$slug'
     | '/homes/$homeId'
     | '/blog'
     | '/homes'
@@ -255,6 +266,7 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard'
     | '/blog/$slug'
     | '/flyer/$homeId'
+    | '/home/$slug'
     | '/homes/$homeId'
     | '/blog/'
     | '/homes/'
@@ -277,6 +289,7 @@ export interface RootRouteChildren {
   TermsRoute: typeof TermsRoute
   BlogSlugRoute: typeof BlogSlugRoute
   FlyerHomeIdRoute: typeof FlyerHomeIdRoute
+  HomeSlugRoute: typeof HomeSlugRoute
   HomesHomeIdRoute: typeof HomesHomeIdRoute
   BlogIndexRoute: typeof BlogIndexRoute
   HomesIndexRoute: typeof HomesIndexRoute
@@ -373,6 +386,13 @@ declare module '@tanstack/react-router' {
       path: '/flyer/$homeId'
       fullPath: '/flyer/$homeId'
       preLoaderRoute: typeof FlyerHomeIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/home/$slug': {
+      id: '/home/$slug'
+      path: '/home/$slug'
+      fullPath: '/home/$slug'
+      preLoaderRoute: typeof HomeSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/homes/': {
@@ -474,6 +494,7 @@ const rootRouteChildren: RootRouteChildren = {
   TermsRoute: TermsRoute,
   BlogSlugRoute: BlogSlugRoute,
   FlyerHomeIdRoute: FlyerHomeIdRoute,
+  HomeSlugRoute: HomeSlugRoute,
   HomesHomeIdRoute: HomesHomeIdRoute,
   BlogIndexRoute: BlogIndexRoute,
   HomesIndexRoute: HomesIndexRoute,
