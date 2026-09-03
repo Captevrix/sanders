@@ -208,9 +208,10 @@ function FlyerPage() {
             <h2 className="font-display text-lg font-extrabold uppercase tracking-wide">
               About this home
             </h2>
-            <p className="mt-2 line-clamp-6 text-[13px] leading-relaxed text-muted-foreground">
-              {home.description}
-            </p>
+            <HomeDescription
+              text={home.description}
+              className="mt-2 max-w-none text-[13px] leading-relaxed"
+            />
           </section>
         )}
 
