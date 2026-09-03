@@ -115,7 +115,8 @@ export function HomeDescription({
   let cut = blocks.length;
   if (collapsible) {
     const headings = blocks.map((b, i) => (b.kind === "heading" ? i : -1)).filter((i) => i >= 0);
-    if (headings.length >= 2) cut = headings[1];
+    // Lead + Quick overview + Highlights stay visible; the rest expands.
+    if (headings.length >= 3) cut = headings[2] ?? blocks.length;
   }
   const canCollapse = collapsible && cut < blocks.length;
   const visible = canCollapse && !open ? blocks.slice(0, cut) : blocks;
